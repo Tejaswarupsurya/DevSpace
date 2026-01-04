@@ -28,6 +28,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       session.user.id = user.id;
       return session;
     },
+    async jwt({ token, account }) {
+      // Save access token to JWT
+      if (account) {
+        token.accessToken = account.access_token;
+      }
+      return token;
+    },
   },
   pages: {
     signIn: "/login",

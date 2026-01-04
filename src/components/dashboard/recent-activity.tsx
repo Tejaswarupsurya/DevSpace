@@ -37,13 +37,13 @@ export function RecentActivity({ activities }: RecentActivityProps) {
   };
 
   return (
-    <Card className="flex flex-col">
+    <Card className="flex flex-col h-full">
       <CardHeader>
         <CardTitle>Recent Activity</CardTitle>
       </CardHeader>
       <CardContent className="flex-1">
-        {/* Add max height and scroll */}
-        <div className="space-y-3 max-h-100 overflow-y-auto pr-2">
+        {/* Show ~3 items visible, scroll for more */}
+        <div className="space-y-3 max-h-[280px] overflow-y-auto pr-2">
           {activities.length === 0 ? (
             <p className="text-sm text-muted-foreground text-center py-4">
               No recent activity found
@@ -55,7 +55,7 @@ export function RecentActivity({ activities }: RecentActivityProps) {
                 href={activity.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="items-start gap-3 p-3 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors block"
+                className="items-start gap-3 p-2.5 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors block"
               >
                 <div className="mt-0.5">{getIcon(activity.type)}</div>
                 <div className="flex-1 min-w-0">

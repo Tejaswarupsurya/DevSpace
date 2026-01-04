@@ -1,4 +1,5 @@
 import { Octokit } from "@octokit/rest";
+import { unstable_cache } from "next/cache";
 
 interface GitHubActivity {
   type: string;
@@ -8,7 +9,10 @@ interface GitHubActivity {
   url: string;
 }
 
-export async function getGitHubStats(username: string, accessToken?: string) {
+async function fetchGitHubStatsUncached(
+  username: string,
+  accessToken?: string
+) {
   const octokit = new Octokit({
     auth: accessToken,
   });
@@ -86,6 +90,46 @@ export async function getGitHubStats(username: string, accessToken?: string) {
       }
     }
 
+    // Prepare contribution graph data (last 365 days - full year)
+    const contributionDays: { date: string; count: number; level: number }[] =
+      [];
+    const lastYear = new Date();
+    lastYear.setDate(today.getDate() - 365);
+
+    // Create map of dates with activity count
+    const activityMap = new Map<string, number>();
+
+    events.forEach((event) => {
+      const eventDate = new Date(event.created_at!);
+      if (eventDate > lastYear) {
+        const dateStr = eventDate.toISOString().split("T")[0];
+        activityMap.set(dateStr, (activityMap.get(dateStr) || 0) + 1);
+      }
+    });
+
+    // Generate array for last 365 days
+    for (let i = 364; i >= 0; i--) {
+      const date = new Date(today);
+      date.setDate(today.getDate() - i);
+      const dateStr = date.toISOString().split("T")[0];
+      const count = activityMap.get(dateStr) || 0;
+
+      contributionDays.push({
+        date: dateStr,
+        count,
+        level:
+          count === 0
+            ? 0
+            : count <= 2
+            ? 1
+            : count <= 5
+            ? 2
+            : count <= 10
+            ? 3
+            : 4,
+      });
+    }
+
     // Parse recent activity (last 10 events)
     const recentActivity: GitHubActivity[] = events
       .slice(0, 10)
@@ -124,7 +168,9 @@ export async function getGitHubStats(username: string, accessToken?: string) {
             action = `Forked ${repoName}`;
             break;
           default:
-            action = `${event.type?.replace("Event", "") || "Activity"} in ${repoName}`;
+            action = `${
+              event.type?.replace("Event", "") || "Activity"
+            } in ${repoName}`;
         }
 
         return {
@@ -151,9 +197,20 @@ export async function getGitHubStats(username: string, accessToken?: string) {
         currentStreak,
       },
       recentActivity,
+      contributionDays,
     };
   } catch (error) {
     console.error("Error fetching GitHub stats:", error);
     return null;
   }
 }
+
+// Cached version of GitHub stats with 5-minute revalidation
+export const getGitHubStats = unstable_cache(
+  fetchGitHubStatsUncached,
+  ["github-stats"],
+  {
+    revalidate: 300, // Cache for 5 minutes
+    tags: ["github-stats"],
+  }
+);

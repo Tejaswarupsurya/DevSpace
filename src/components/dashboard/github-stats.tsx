@@ -4,6 +4,7 @@ import { getGitHubStats } from "@/lib/github";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { GitBranch, Star, GitCommit, Flame } from "lucide-react";
 import { RecentActivity } from "./recent-activity";
+import { ContributionGraph } from "./contribution-graph";
 
 export async function GitHubStats() {
   const session = await auth();
@@ -77,12 +78,12 @@ export async function GitHubStats() {
 
   return (
     <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-      {/* Stats Card */}
+      {/* Stats Card - Takes 2 columns on large screens */}
       <Card className="xl:col-span-2">
         <CardHeader>
           <CardTitle>GitHub Activity</CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="pb-2">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {stats.map((stat) => {
               const Icon = stat.icon;
@@ -102,6 +103,9 @@ export async function GitHubStats() {
               );
             })}
           </div>
+
+          {/* Add Contribution Graph */}
+          <ContributionGraph data={githubData.contributionDays} />
         </CardContent>
       </Card>
 
