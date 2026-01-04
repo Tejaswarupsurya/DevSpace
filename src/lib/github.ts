@@ -1,5 +1,13 @@
 import { Octokit } from "@octokit/rest";
 
+interface GitHubActivity {
+  type: string;
+  repo: string;
+  action: string;
+  createdAt: Date;
+  url: string;
+}
+
 export async function getGitHubStats(username: string, accessToken?: string) {
   const octokit = new Octokit({
     auth: accessToken,
@@ -43,7 +51,7 @@ export async function getGitHubStats(username: string, accessToken?: string) {
       }
     }
 
-    // Calculate streak (last 30 days of activity)
+    // Calculate streak
     const thirtyDaysAgo = new Date();
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 
@@ -74,10 +82,59 @@ export async function getGitHubStats(username: string, accessToken?: string) {
       if (activeDays.has(dateStr)) {
         currentStreak++;
       } else if (i > 0) {
-        // Break streak only after first day (allow today to be empty)
         break;
       }
     }
+
+    // Parse recent activity (last 10 events)
+    const recentActivity: GitHubActivity[] = events
+      .slice(0, 10)
+      .map((event) => {
+        const repoName = event.repo?.name?.split("/")[1] || "Unknown";
+        let action = "";
+
+        switch (event.type) {
+          case "PushEvent":
+            const commits = (event.payload as any)?.commits?.length || 0;
+            action = `Pushed ${commits} commit${
+              commits > 1 ? "s" : ""
+            } to ${repoName}`;
+            break;
+          case "CreateEvent":
+            action = `Created ${
+              (event.payload as any)?.ref_type
+            } in ${repoName}`;
+            break;
+          case "PullRequestEvent":
+            const prAction = (event.payload as any)?.action;
+            action = `${
+              prAction.charAt(0).toUpperCase() + prAction.slice(1)
+            } PR in ${repoName}`;
+            break;
+          case "IssuesEvent":
+            const issueAction = (event.payload as any)?.action;
+            action = `${
+              issueAction.charAt(0).toUpperCase() + issueAction.slice(1)
+            } issue in ${repoName}`;
+            break;
+          case "WatchEvent":
+            action = `Starred ${repoName}`;
+            break;
+          case "ForkEvent":
+            action = `Forked ${repoName}`;
+            break;
+          default:
+            action = `${event.type?.replace("Event", "") || "Activity"} in ${repoName}`;
+        }
+
+        return {
+          type: event.type || "",
+          repo: repoName,
+          action,
+          createdAt: new Date(event.created_at!),
+          url: `https://github.com/${event.repo?.name}`,
+        };
+      });
 
     return {
       user: {
@@ -93,6 +150,7 @@ export async function getGitHubStats(username: string, accessToken?: string) {
         commitsThisWeek: totalCommits,
         currentStreak,
       },
+      recentActivity,
     };
   } catch (error) {
     console.error("Error fetching GitHub stats:", error);

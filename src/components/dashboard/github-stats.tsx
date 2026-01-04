@@ -2,7 +2,8 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { getGitHubStats } from "@/lib/github";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { GitBranch, Star, GitCommit, Users, Flame } from "lucide-react";
+import { GitBranch, Star, GitCommit, Flame } from "lucide-react";
+import { RecentActivity } from "./recent-activity";
 
 export async function GitHubStats() {
   const session = await auth();
@@ -75,8 +76,9 @@ export async function GitHubStats() {
   ];
 
   return (
-    <div className="space-y-6">
-      <Card>
+    <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+      {/* Stats Card */}
+      <Card className="xl:col-span-2">
         <CardHeader>
           <CardTitle>GitHub Activity</CardTitle>
         </CardHeader>
@@ -102,6 +104,9 @@ export async function GitHubStats() {
           </div>
         </CardContent>
       </Card>
+
+      {/* Recent Activity */}
+      <RecentActivity activities={githubData.recentActivity} />
     </div>
   );
 }
