@@ -2,14 +2,13 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { getGitHubStats } from "@/lib/github";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { GitBranch, Star, GitCommit, Users } from "lucide-react";
+import { GitBranch, Star, GitCommit, Users, Flame } from "lucide-react";
 
 export async function GitHubStats() {
   const session = await auth();
 
   if (!session?.user?.id) return null;
 
-  // Get user with GitHub username
   const user = await prisma.user.findUnique({
     where: { id: session.user.id },
     select: { githubUsername: true },
@@ -30,7 +29,6 @@ export async function GitHubStats() {
     );
   }
 
-  // Fetch GitHub stats
   const githubData = await getGitHubStats(user.githubUsername);
 
   if (!githubData) {
@@ -50,6 +48,13 @@ export async function GitHubStats() {
 
   const stats = [
     {
+      label: "Current Streak",
+      value: githubData.stats.currentStreak,
+      icon: Flame,
+      color: "text-orange-600",
+      suffix: "days",
+    },
+    {
       label: "Commits This Week",
       value: githubData.stats.commitsThisWeek,
       icon: GitCommit,
@@ -67,12 +72,6 @@ export async function GitHubStats() {
       icon: Star,
       color: "text-yellow-600",
     },
-    {
-      label: "Followers",
-      value: githubData.user.followers,
-      icon: Users,
-      color: "text-purple-600",
-    },
   ];
 
   return (
@@ -88,7 +87,14 @@ export async function GitHubStats() {
               return (
                 <div key={stat.label} className="text-center">
                   <Icon className={`w-6 h-6 mx-auto mb-2 ${stat.color}`} />
-                  <p className="text-2xl font-bold">{stat.value}</p>
+                  <p className="text-2xl font-bold">
+                    {stat.value}
+                    {stat.suffix && (
+                      <span className="text-xs ml-1 text-muted-foreground">
+                        {stat.suffix}
+                      </span>
+                    )}
+                  </p>
                   <p className="text-xs text-muted-foreground">{stat.label}</p>
                 </div>
               );
