@@ -29,7 +29,7 @@ model User {
   collections   Collection[] 
   bookmarks     Bookmark[]
   tasks         Task[]
-
+  note          Note?
   @@index([email])
 }
 
