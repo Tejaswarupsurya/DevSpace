@@ -10,7 +10,14 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
-import { MoreVertical, ExternalLink, Pin, Trash2, Edit } from "lucide-react";
+import {
+  MoreVertical,
+  ExternalLink,
+  Pin,
+  Trash2,
+  Edit,
+  Link as LinkIcon,
+} from "lucide-react";
 import Image from "next/image";
 
 interface Bookmark {
@@ -86,8 +93,8 @@ export function BookmarkGrid({
           className="group hover:shadow-lg transition-shadow overflow-hidden"
         >
           {/* Image Preview */}
-          {bookmark.imageUrl && (
-            <div className="relative h-48 w-full bg-muted">
+          <div className="relative h-48 w-full bg-linear-to-br from-blue-50 to-purple-50 dark:from-blue-950 dark:to-purple-950">
+            {bookmark.imageUrl ? (
               <Image
                 src={bookmark.imageUrl}
                 alt={bookmark.title}
@@ -97,8 +104,12 @@ export function BookmarkGrid({
                   (e.target as HTMLImageElement).style.display = "none";
                 }}
               />
-            </div>
-          )}
+            ) : (
+              <div className="absolute inset-0 flex items-center justify-center">
+                <LinkIcon className="w-16 h-16 text-muted-foreground/30" />
+              </div>
+            )}
+          </div>
 
           <CardContent className="p-4">
             {/* Header */}

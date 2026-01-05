@@ -4,10 +4,11 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Plus, Search, BookmarkPlus } from "lucide-react";
+import { Plus, Search, BookmarkPlus, Settings } from "lucide-react";
 import { BookmarkGrid } from "./bookmark-grid";
 import { AddCollectionDialog } from "./add-collection-dialog";
 import { AddBookmarkDialog } from "./add-bookmark-dialog";
+import { ManageCollectionsDialog } from "./manage-collections-dialog";
 
 interface Collection {
   id: string;
@@ -53,6 +54,7 @@ export function BookmarksView({
   const [searchQuery, setSearchQuery] = useState("");
   const [showCollectionDialog, setShowCollectionDialog] = useState(false);
   const [showBookmarkDialog, setShowBookmarkDialog] = useState(false);
+  const [managingCollections, setManagingCollections] = useState(false);
 
   // Filter bookmarks based on selected collection and search
   const filteredBookmarks = bookmarks.filter((bookmark) => {
@@ -96,52 +98,68 @@ export function BookmarksView({
         </Button>
       </div>
 
-      {/* Collections Tabs */}
-      <Tabs defaultValue="all" className="space-y-6">
-        <TabsList>
-          <TabsTrigger value="all" onClick={() => setSelectedCollection(null)}>
-            All ({bookmarks.length})
-          </TabsTrigger>
-          {collections.map((collection) => (
+      {/* Collections Tabs with Manage Button */}
+      <div className="flex items-center justify-between">
+        <Tabs defaultValue="all" className="flex-1">
+          <TabsList>
             <TabsTrigger
-              key={collection.id}
-              value={collection.id}
-              onClick={() => setSelectedCollection(collection.id)}
+              value="all"
+              onClick={() => setSelectedCollection(null)}
             >
-              <span className="mr-1">{collection.emoji}</span>
-              {collection.name} ({collection._count.bookmarks})
+              All ({bookmarks.length})
             </TabsTrigger>
-          ))}
-        </TabsList>
+            {collections.map((collection) => (
+              <TabsTrigger
+                key={collection.id}
+                value={collection.id}
+                onClick={() => setSelectedCollection(collection.id)}
+              >
+                <span className="mr-1">{collection.emoji}</span>
+                {collection.name} ({collection._count.bookmarks})
+              </TabsTrigger>
+            ))}
+          </TabsList>
+        </Tabs>
 
-        <TabsContent value={selectedCollection || "all"}>
-          {filteredBookmarks.length === 0 ? (
-            <div className="text-center py-12">
-              <BookmarkPlus className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
-              <h3 className="text-lg font-semibold mb-2">No bookmarks yet</h3>
-              <p className="text-muted-foreground mb-4">
-                Start saving your favorite dev resources
-              </p>
-              <Button onClick={() => setShowBookmarkDialog(true)}>
-                <Plus className="w-4 h-4 mr-2" />
-                Add Your First Bookmark
-              </Button>
-            </div>
-          ) : (
-            <BookmarkGrid
-              bookmarks={filteredBookmarks}
-              onUpdate={(updated) => {
-                setBookmarks((prev) =>
-                  prev.map((b) => (b.id === updated.id ? updated : b))
-                );
-              }}
-              onDelete={(id) => {
-                setBookmarks((prev) => prev.filter((b) => b.id !== id));
-              }}
-            />
-          )}
-        </TabsContent>
-      </Tabs>
+        <Button
+          onClick={() => setManagingCollections(true)}
+          variant="ghost"
+          size="sm"
+          className="ml-4"
+        >
+          <Settings className="w-4 h-4 mr-2" />
+          Manage
+        </Button>
+      </div>
+
+      {/* Bookmarks Content */}
+      <div>
+        {filteredBookmarks.length === 0 ? (
+          <div className="text-center py-12">
+            <BookmarkPlus className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
+            <h3 className="text-lg font-semibold mb-2">No bookmarks yet</h3>
+            <p className="text-muted-foreground mb-4">
+              Start saving your favorite dev resources
+            </p>
+            <Button onClick={() => setShowBookmarkDialog(true)}>
+              <Plus className="w-4 h-4 mr-2" />
+              Add Your First Bookmark
+            </Button>
+          </div>
+        ) : (
+          <BookmarkGrid
+            bookmarks={filteredBookmarks}
+            onUpdate={(updated) => {
+              setBookmarks((prev) =>
+                prev.map((b) => (b.id === updated.id ? updated : b))
+              );
+            }}
+            onDelete={(id) => {
+              setBookmarks((prev) => prev.filter((b) => b.id !== id));
+            }}
+          />
+        )}
+      </div>
 
       {/* Dialogs */}
       <AddCollectionDialog
@@ -158,6 +176,18 @@ export function BookmarksView({
         collections={collections}
         onSuccess={(newBookmark) => {
           setBookmarks((prev) => [newBookmark, ...prev]);
+        }}
+      />
+
+      <ManageCollectionsDialog
+        open={managingCollections}
+        onOpenChange={setManagingCollections}
+        collections={collections}
+        onDelete={(id) => {
+          setCollections((prev) => prev.filter((c) => c.id !== id));
+          if (selectedCollection === id) {
+            setSelectedCollection(null);
+          }
         }}
       />
     </div>
