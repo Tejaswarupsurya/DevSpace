@@ -29,6 +29,7 @@ model User {
   collections   Collection[] 
   bookmarks     Bookmark[]
   tasks         Task[]
+  pomodoroSessions PomodoroSession[]
   note          Note?
   @@index([email])
 }
@@ -152,4 +153,22 @@ model Note {
   updatedAt DateTime @updatedAt
 
   @@index([userId])
+}
+
+// ============================================
+// POMODORO TIMER
+// ============================================
+
+model PomodoroSession {
+  id          String   @id @default(cuid())
+  duration    Int      
+  type        String   
+  completed   Boolean  
+  note        String?  
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  
+  @@index([userId])
+  @@index([createdAt])
 }
