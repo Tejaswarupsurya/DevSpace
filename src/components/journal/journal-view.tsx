@@ -248,11 +248,21 @@ export function JournalView({
               setViewMode("editor");
               // Smoothly scroll the editor into view for immediate writing
               setTimeout(() => {
+                // Scroll editor near bottom for full focus
                 editorRef.current?.scrollIntoView({
                   behavior: "smooth",
-                  block: "start",
+                  block: "end",
                 });
-              }, 0);
+                // Ensure we reach page bottom if content is taller
+                if (typeof window !== "undefined") {
+                  window.scrollTo({
+                    top:
+                      document.documentElement.scrollHeight ||
+                      document.body.scrollHeight,
+                    behavior: "smooth",
+                  });
+                }
+              }, 50);
             }}
           >
             Write now

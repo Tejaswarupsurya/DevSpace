@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Play, PlusCircle, NotebookPen, StickyNote } from "lucide-react";
+import { Play, PlusCircle, NotebookPen, StickyNote, Code2 } from "lucide-react";
 import { startOfDay, endOfDay, isWithinInterval } from "date-fns";
 
 type Task = {
@@ -94,6 +94,11 @@ export function TodayOverview() {
         <Link href="/notes">
           <Button variant="ghost" size="sm">
             <StickyNote className="w-4 h-4 mr-2" /> Quick Note
+          </Button>
+        </Link>
+        <Link href="/snippets">
+          <Button variant="ghost" size="sm">
+            <Code2 className="w-4 h-4 mr-2" /> Snippets
           </Button>
         </Link>
       </div>
