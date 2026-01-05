@@ -29,6 +29,7 @@ model User {
   collections   Collection[] 
   bookmarks     Bookmark[]
   tasks         Task[]
+  journalEntries JournalEntry[]
   pomodoroSessions PomodoroSession[]
   note          Note?
   @@index([email])
@@ -138,6 +139,27 @@ model Task {
   @@index([userId])
   @@index([status])
   @@index([priority])
+}
+
+// ============================================
+// DAILY JOURNAL
+// ============================================
+
+model JournalEntry {
+  id          String   @id @default(cuid())
+  date        DateTime @unique // One entry per day
+  mood        String?  // TERRIBLE, BAD, OKAY, GOOD, AMAZING
+  content     String   @db.Text
+  wins        String[] // Quick wins array
+  prompt      String?  // Which prompt was shown
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([userId])
+  @@index([date])
+  @@unique([userId, date]) // One entry per user per day
 }
 
 // ============================================

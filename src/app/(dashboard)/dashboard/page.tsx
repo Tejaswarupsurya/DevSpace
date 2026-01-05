@@ -1,5 +1,6 @@
 import { auth } from "@/lib/auth";
 import { GitHubStats } from "@/components/dashboard/github-stats";
+import { TodayOverview } from "@/components/dashboard/today-overview";
 import { Suspense } from "react";
 
 function getGreeting() {
@@ -33,32 +34,14 @@ export default async function DashboardPage() {
           </p>
         </div>
 
+        {/* Today Overview */}
+        <TodayOverview />
+
         {/* GitHub Stats */}
         <Suspense fallback={<div>Loading GitHub stats...</div>}>
           <GitHubStats />
         </Suspense>
-
-        {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="p-6 border rounded-lg bg-white dark:bg-zinc-900">
-            <h3 className="text-sm font-medium text-muted-foreground">
-              Tasks Completed
-            </h3>
-            <p className="text-3xl font-bold mt-2">0</p>
-          </div>
-          <div className="p-6 border rounded-lg bg-white dark:bg-zinc-900">
-            <h3 className="text-sm font-medium text-muted-foreground">
-              Pomodoro Sessions
-            </h3>
-            <p className="text-3xl font-bold mt-2">0</p>
-          </div>
-          <div className="p-6 border rounded-lg bg-white dark:bg-zinc-900">
-            <h3 className="text-sm font-medium text-muted-foreground">
-              Journal Entries
-            </h3>
-            <p className="text-3xl font-bold mt-2">0</p>
-          </div>
-        </div>
+        {/* You can add more sections below as needed */}
       </div>
     </div>
   );
