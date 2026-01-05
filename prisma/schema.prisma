@@ -27,7 +27,8 @@ model User {
   accounts      Account[]
   sessions      Session[]
   collections   Collection[] 
-  bookmarks     Bookmark[]  
+  bookmarks     Bookmark[]
+  tasks         Task[]
 
   @@index([email])
 }
@@ -113,4 +114,42 @@ model Bookmark {
   @@index([userId])
   @@index([collectionId])
   @@index([isRead])
+}
+
+// ============================================
+// TASKS & KANBAN BOARD
+// ============================================
+
+model Task {
+  id          String    @id @default(cuid())
+  title       String
+  description String?   @db.Text
+  status      String    @default("TODO") // TODO, IN_PROGRESS, DONE
+  priority    String    @default("MEDIUM") // LOW, MEDIUM, HIGH
+  tags        String[]
+  dueDate     DateTime?
+  position    Int       @default(0) // For drag-drop ordering within column
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([userId])
+  @@index([status])
+  @@index([priority])
+}
+
+// ============================================
+// NOTES (SCRATCHPAD)
+// ============================================
+
+model Note {
+  id        String   @id @default(cuid())
+  content   String   @db.Text
+  userId    String   @unique // One note per user
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
 }
