@@ -43,7 +43,7 @@ export function RecentActivity({ activities }: RecentActivityProps) {
       </CardHeader>
       <CardContent className="flex-1">
         {/* Show ~3 items visible, scroll for more */}
-        <div className="space-y-3 max-h-[280px] overflow-y-auto pr-2">
+        <div className="space-y-3 max-h-70 overflow-y-auto pr-2">
           {activities.length === 0 ? (
             <p className="text-sm text-muted-foreground text-center py-4">
               No recent activity found

@@ -6,6 +6,14 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: process.cwd(), // Explicitly set the correct project root
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**", // Allow all HTTPS hostnames
+      },
+    ],
+  },
 };
 
 export default nextConfig;

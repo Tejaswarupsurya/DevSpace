@@ -26,6 +26,8 @@ model User {
 
   accounts      Account[]
   sessions      Session[]
+  collections   Collection[] 
+  bookmarks     Bookmark[]  
 
   @@index([email])
 }
@@ -70,4 +72,45 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+// ============================================
+// BOOKMARKS & COLLECTIONS
+// ============================================
+
+model Collection {
+  id          String     @id @default(cuid())
+  name        String
+  emoji       String     @default("📚")
+  color       String     @default("#3b82f6") // Tailwind blue-500
+  description String?
+  userId      String
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bookmarks   Bookmark[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@index([userId])
+}
+
+model Bookmark {
+  id           String      @id @default(cuid())
+  url          String
+  title        String
+  description  String?     @db.Text
+  favicon      String?
+  imageUrl     String?     // Open Graph image
+  tags         String[]
+  isPinned     Boolean     @default(false)
+  isRead       Boolean     @default(false)
+  collectionId String
+  collection   Collection  @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+  userId       String
+  user         User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  @@index([userId])
+  @@index([collectionId])
+  @@index([isRead])
 }

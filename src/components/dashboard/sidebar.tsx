@@ -92,6 +92,7 @@ export function Sidebar({ user }: SidebarProps) {
           size="sm"
           className="w-full"
           onClick={() => signOut({ callbackUrl: "/login" })}
+          suppressHydrationWarning
         >
           <LogOut className="w-4 h-4 mr-2" />
           Sign Out
