@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 import {
   LayoutDashboard,
@@ -15,8 +16,10 @@ import {
   Timer,
   Sparkles,
   LogOut,
+  Menu,
 } from "lucide-react";
 import { signOut } from "next-auth/react";
+import { useState } from "react";
 
 interface SidebarProps {
   user: {
@@ -54,12 +57,13 @@ const navigationSections = [
 
 export function Sidebar({ user }: SidebarProps) {
   const pathname = usePathname();
+  const [open, setOpen] = useState(false);
 
-  return (
-    <div className="flex flex-col w-64 border-r bg-white dark:bg-zinc-900">
+  const SidebarContent = () => (
+    <>
       {/* Logo */}
       <div className="p-6 border-b flex items-center">
-        <Link href="/dashboard">
+        <Link href="/dashboard" onClick={() => setOpen(false)}>
           <Image
             src="/devspace-logo.png"
             alt="DevSpace"
@@ -75,6 +79,7 @@ export function Sidebar({ user }: SidebarProps) {
         {/* Dashboard - standalone */}
         <Link
           href="/dashboard"
+          onClick={() => setOpen(false)}
           className={cn(
             "flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
             pathname === "/dashboard"
@@ -101,6 +106,7 @@ export function Sidebar({ user }: SidebarProps) {
                   <Link
                     key={item.name}
                     href={item.href}
+                    onClick={() => setOpen(false)}
                     className={cn(
                       "flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
                       isActive
@@ -120,30 +126,72 @@ export function Sidebar({ user }: SidebarProps) {
 
       {/* User Profile */}
       <div className="p-4 border-t">
-        <div className="flex items-center gap-3 mb-3">
-          <img
-            src={user?.image || ""}
-            alt={user?.name || "User"}
-            className="w-10 h-10 rounded-full"
-          />
+        <div className="flex items-center gap-3 mb-4">
+          {user.image ? (
+            <Image
+              src={user.image}
+              alt={user.name || "User"}
+              width={40}
+              height={40}
+              className="rounded-full"
+            />
+          ) : (
+            <div className="w-10 h-10 bg-zinc-200 dark:bg-zinc-700 rounded-full flex items-center justify-center">
+              <span className="text-sm font-semibold">
+                {user.name?.[0]?.toUpperCase() || "U"}
+              </span>
+            </div>
+          )}
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium truncate">{user?.name}</p>
-            <p className="text-xs text-muted-foreground truncate">
-              {user?.email}
+            <p className="text-sm font-medium truncate">{user.name}</p>
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 truncate">
+              {user.email}
             </p>
           </div>
         </div>
         <Button
           variant="outline"
-          size="sm"
           className="w-full"
           onClick={() => signOut({ callbackUrl: "/login" })}
-          suppressHydrationWarning
         >
           <LogOut className="w-4 h-4 mr-2" />
           Sign Out
         </Button>
       </div>
-    </div>
+    </>
+  );
+
+  return (
+    <>
+      {/* Mobile Header */}
+      <div className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-white dark:bg-zinc-900 border-b px-4 py-3 flex items-center justify-between">
+        <Link href="/dashboard">
+          <Image
+            src="/devspace-logo.png"
+            alt="DevSpace"
+            width={120}
+            height={30}
+            priority
+          />
+        </Link>
+        <Sheet open={open} onOpenChange={setOpen}>
+          <SheetTrigger asChild>
+            <Button variant="ghost" size="icon">
+              <Menu className="w-6 h-6" />
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="left" className="p-0 w-64">
+            <div className="flex flex-col h-full bg-white dark:bg-zinc-900">
+              <SidebarContent />
+            </div>
+          </SheetContent>
+        </Sheet>
+      </div>
+
+      {/* Desktop Sidebar */}
+      <div className="hidden lg:flex flex-col w-64 border-r bg-white dark:bg-zinc-900">
+        <SidebarContent />
+      </div>
+    </>
   );
 }

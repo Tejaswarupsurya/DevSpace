@@ -230,17 +230,19 @@ export function JournalEditor({
       {/* Mood Selector */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg">How are you feeling?</CardTitle>
+          <CardTitle className="text-base sm:text-lg">
+            How are you feeling?
+          </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="flex gap-4 justify-center">
+          <div className="flex gap-2 sm:gap-3 md:gap-4 justify-center flex-wrap">
             {MOODS.map((m) => (
               <button
                 key={m.value}
                 onClick={() => isEditingToday && setMood(m.value)}
                 disabled={!isEditingToday}
                 className={cn(
-                  "flex flex-col items-center gap-2 p-4 rounded-lg transition-all",
+                  "flex flex-col items-center gap-1 sm:gap-2 p-2 sm:p-3 md:p-4 rounded-lg transition-all min-w-15 sm:min-w-17.5",
                   isEditingToday && "hover:scale-110",
                   mood === m.value
                     ? "bg-primary/10 ring-2 ring-primary"
@@ -249,8 +251,12 @@ export function JournalEditor({
                     : "opacity-70 cursor-not-allowed"
                 )}
               >
-                <span className="text-4xl">{m.emoji}</span>
-                <span className={cn("text-xs font-medium", m.color)}>
+                <span className="text-2xl sm:text-3xl md:text-4xl">
+                  {m.emoji}
+                </span>
+                <span
+                  className={cn("text-[10px] sm:text-xs font-medium", m.color)}
+                >
                   {m.label}
                 </span>
               </button>

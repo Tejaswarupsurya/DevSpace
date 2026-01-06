@@ -76,9 +76,9 @@ export function BookmarksView({
   });
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {/* Top Actions */}
-      <div className="flex items-center gap-4">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
         <div className="flex-1 relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <Input
@@ -88,14 +88,27 @@ export function BookmarksView({
             className="pl-10"
           />
         </div>
-        <Button onClick={() => setShowCollectionDialog(true)} variant="outline">
-          <Plus className="w-4 h-4 mr-2" />
-          New Collection
-        </Button>
-        <Button onClick={() => setShowBookmarkDialog(true)}>
-          <BookmarkPlus className="w-4 h-4 mr-2" />
-          Add Bookmark
-        </Button>
+        <div className="flex gap-2 sm:gap-3">
+          <Button
+            onClick={() => setShowCollectionDialog(true)}
+            variant="outline"
+            size="sm"
+            className="flex-1 sm:flex-none"
+          >
+            <Plus className="w-4 h-4 sm:mr-2" />
+            <span className="hidden sm:inline">New Collection</span>
+            <span className="sm:hidden">Collection</span>
+          </Button>
+          <Button
+            onClick={() => setShowBookmarkDialog(true)}
+            size="sm"
+            className="flex-1 sm:flex-none"
+          >
+            <BookmarkPlus className="w-4 h-4 sm:mr-2" />
+            <span className="hidden sm:inline">Add Bookmark</span>
+            <span className="sm:hidden">Bookmark</span>
+          </Button>
+        </div>
       </div>
 
       {/* Collections Tabs with Manage Button */}

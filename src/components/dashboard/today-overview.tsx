@@ -73,31 +73,39 @@ export function TodayOverview() {
   }, []);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {/* Quick Actions */}
-      <div className="flex flex-wrap gap-3">
-        <Link href="/pomodoro">
-          <Button size="sm">
-            <Play className="w-4 h-4 mr-2" /> Start Pomodoro
+      <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-2 sm:gap-3">
+        <Link href="/pomodoro" className="w-full sm:w-auto">
+          <Button size="sm" className="w-full">
+            <Play className="w-4 h-4 sm:mr-2" />
+            <span className="hidden sm:inline ml-2">Start Pomodoro</span>
+            <span className="sm:hidden ml-1">Pomodoro</span>
           </Button>
         </Link>
-        <Link href="/tasks">
-          <Button variant="secondary" size="sm">
-            <PlusCircle className="w-4 h-4 mr-2" /> Add Task
+        <Link href="/tasks" className="w-full sm:w-auto">
+          <Button variant="secondary" size="sm" className="w-full">
+            <PlusCircle className="w-4 h-4 sm:mr-2" />
+            <span className="hidden sm:inline ml-2">Add Task</span>
+            <span className="sm:hidden ml-1">Task</span>
           </Button>
         </Link>
-        <Link href="/journal">
-          <Button variant="outline" size="sm">
-            <NotebookPen className="w-4 h-4 mr-2" /> Write Journal
+        <Link href="/journal" className="w-full sm:w-auto">
+          <Button variant="outline" size="sm" className="w-full">
+            <NotebookPen className="w-4 h-4 sm:mr-2" />
+            <span className="hidden sm:inline ml-2">Write Journal</span>
+            <span className="sm:hidden ml-1">Journal</span>
           </Button>
         </Link>
-        <Link href="/notes">
-          <Button variant="ghost" size="sm">
-            <StickyNote className="w-4 h-4 mr-2" /> Quick Note
+        <Link href="/notes" className="w-full sm:w-auto">
+          <Button variant="ghost" size="sm" className="w-full">
+            <StickyNote className="w-4 h-4 sm:mr-2" />
+            <span className="hidden sm:inline ml-2">Quick Note</span>
+            <span className="sm:hidden ml-1">Note</span>
           </Button>
         </Link>
-        <Link href="/snippets">
-          <Button variant="ghost" size="sm">
+        <Link href="/snippets" className="col-span-2 sm:col-span-1 sm:w-auto">
+          <Button variant="ghost" size="sm" className="w-full">
             <Code2 className="w-4 h-4 mr-2" /> Snippets
           </Button>
         </Link>

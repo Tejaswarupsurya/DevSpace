@@ -22,14 +22,14 @@ export default async function DashboardPage() {
   const firstName = session?.user?.name?.split(" ")[0];
 
   return (
-    <div className="p-8">
-      <div className="max-w-6xl mx-auto space-y-8">
+    <div className="p-4 sm:p-6 lg:p-8">
+      <div className="max-w-6xl mx-auto space-y-6 sm:space-y-8">
         {/* Welcome Header with Time-based Greeting */}
         <div>
-          <h1 className="text-3xl font-bold">
+          <h1 className="text-2xl sm:text-3xl font-bold">
             {getGreeting()}, {firstName}! {getEmoji()}
           </h1>
-          <p className="text-muted-foreground mt-2">
+          <p className="text-muted-foreground mt-1 sm:mt-2 text-sm sm:text-base">
             Here's what's happening with your productivity today.
           </p>
         </div>

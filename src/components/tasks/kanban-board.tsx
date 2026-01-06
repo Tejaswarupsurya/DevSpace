@@ -125,9 +125,13 @@ export function KanbanBoard({ initialTasks }: KanbanBoardProps) {
 
   return (
     <>
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 sm:mb-8">
         <div className="flex items-center gap-2">
-          <Button onClick={() => openAddDialog("TODO")}>
+          <Button
+            onClick={() => openAddDialog("TODO")}
+            size="sm"
+            className="sm:h-10"
+          >
             <Plus className="w-4 h-4 mr-2" />
             New Task
           </Button>
@@ -139,7 +143,7 @@ export function KanbanBoard({ initialTasks }: KanbanBoardProps) {
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
       >
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
           {COLUMNS.map((column) => (
             <KanbanColumn
               key={column.id}

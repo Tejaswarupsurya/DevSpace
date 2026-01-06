@@ -159,11 +159,11 @@ export default function SnippetsView({
   };
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="p-4 sm:p-6 space-y-4 sm:space-y-6">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold">Snippets</h1>
-          <p className="text-muted-foreground">
+          <h1 className="text-xl sm:text-2xl font-bold">Snippets</h1>
+          <p className="text-sm text-muted-foreground">
             Store reusable code for quick access and copy.
           </p>
         </div>
@@ -175,7 +175,7 @@ export default function SnippetsView({
               <Plus className="w-4 h-4 mr-2" /> New Snippet
             </Button>
           </DialogTrigger>
-          <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+          <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle>Create Snippet</DialogTitle>
             </DialogHeader>

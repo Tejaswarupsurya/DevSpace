@@ -73,12 +73,13 @@ export default function AIAssistantPage() {
 
   return (
     <div className="h-screen flex flex-col">
-      <div className="p-4 border-b flex items-center justify-between">
-        <div className="flex items-center gap-4">
+      <div className="p-3 sm:p-4 border-b flex items-center justify-between">
+        <div className="flex items-center gap-2 sm:gap-4">
           <Button
             variant="ghost"
             size="icon"
             onClick={() => setShowSidebar(!showSidebar)}
+            className="lg:hidden"
           >
             {showSidebar ? (
               <PanelLeftClose className="w-5 h-5" />
@@ -87,8 +88,8 @@ export default function AIAssistantPage() {
             )}
           </Button>
           <div>
-            <h1 className="text-2xl font-bold">AI Dev Assistant</h1>
-            <p className="text-sm text-muted-foreground">
+            <h1 className="text-lg sm:text-2xl font-bold">AI Dev Assistant</h1>
+            <p className="text-xs sm:text-sm text-muted-foreground hidden sm:block">
               Your specialized coding helper
             </p>
           </div>
@@ -96,9 +97,9 @@ export default function AIAssistantPage() {
       </div>
 
       <div className="flex-1 overflow-hidden flex">
-        {/* Sidebar */}
+        {/* Sidebar - Hidden on mobile by default */}
         {showSidebar && (
-          <div className="w-64 border-r bg-muted/30 flex flex-col">
+          <div className="absolute lg:relative z-40 lg:z-0 w-64 h-full border-r bg-background lg:bg-muted/30 flex flex-col shadow-lg lg:shadow-none">
             <div className="p-3 border-b space-y-3">
               <div>
                 <h2 className="text-sm font-semibold mb-1">Chat History</h2>
