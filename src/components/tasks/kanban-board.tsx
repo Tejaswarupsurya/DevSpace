@@ -106,7 +106,20 @@ export function KanbanBoard({ initialTasks }: KanbanBoardProps) {
   };
 
   const handleDeleteTask = (taskId: string) => {
+    // Optimistic removal
     setTasks((prev) => prev.filter((t) => t.id !== taskId));
+    // Server delete
+    (async () => {
+      try {
+        const res = await fetch(`/api/tasks/${taskId}`, { method: "DELETE" });
+        if (!res.ok) {
+          throw new Error("Failed to delete on server");
+        }
+      } catch (err) {
+        console.error("Error deleting task:", err);
+        // Optionally refetch or restore; for simplicity, no rollback here
+      }
+    })();
   };
 
   const openAddDialog = (status: string) => {
@@ -140,6 +153,7 @@ export function KanbanBoard({ initialTasks }: KanbanBoardProps) {
               tasks={tasks.filter((t) => t.status === column.id)}
               onAddTask={() => openAddDialog(column.id)}
               onTaskClick={setSelectedTask}
+              onDeleteTask={handleDeleteTask}
             />
           ))}
         </div>

@@ -26,6 +26,7 @@ interface KanbanColumnProps {
   tasks: Task[];
   onAddTask: () => void;
   onTaskClick: (task: Task) => void;
+  onDeleteTask?: (taskId: string) => void;
 }
 
 export function KanbanColumn({
@@ -35,6 +36,7 @@ export function KanbanColumn({
   tasks,
   onAddTask,
   onTaskClick,
+  onDeleteTask,
 }: KanbanColumnProps) {
   const { setNodeRef, isOver } = useDroppable({ id });
 
@@ -77,6 +79,7 @@ export function KanbanColumn({
               key={task.id}
               task={task}
               onClick={() => onTaskClick(task)}
+              onDelete={onDeleteTask}
             />
           ))
         )}

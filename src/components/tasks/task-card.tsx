@@ -3,7 +3,7 @@
 import { useDraggable } from "@dnd-kit/core";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import { Calendar, AlertCircle, Flag } from "lucide-react";
+import { Calendar, AlertCircle, Flag, Trash2 } from "lucide-react";
 import { format, isPast, isToday } from "date-fns";
 
 interface Task {
@@ -22,6 +22,7 @@ interface Task {
 interface TaskCardProps {
   task: Task;
   onClick: () => void;
+  onDelete?: (taskId: string) => void;
 }
 
 const PRIORITY_COLORS = {
@@ -36,7 +37,7 @@ const PRIORITY_ICONS = {
   HIGH: AlertCircle,
 };
 
-export function TaskCard({ task, onClick }: TaskCardProps) {
+export function TaskCard({ task, onClick, onDelete }: TaskCardProps) {
   const { attributes, listeners, setNodeRef, transform, isDragging } =
     useDraggable({
       id: task.id,
@@ -72,10 +73,25 @@ export function TaskCard({ task, onClick }: TaskCardProps) {
         "hover:border-primary/50"
       )}
     >
-      {/* Title */}
-      <h4 className="font-medium mb-3 line-clamp-2 leading-relaxed">
-        {task.title}
-      </h4>
+      {/* Title + Delete */}
+      <div className="flex items-start justify-between mb-3">
+        <h4 className="font-medium line-clamp-2 leading-relaxed pr-2">
+          {task.title}
+        </h4>
+        {onDelete && (
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              onDelete(task.id);
+            }}
+            className="text-muted-foreground hover:text-destructive ml-2"
+            aria-label="Delete task"
+          >
+            <Trash2 className="w-4 h-4" />
+          </button>
+        )}
+      </div>
 
       {/* Description */}
       {task.description && (

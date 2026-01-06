@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -43,9 +44,15 @@ export function Sidebar({ user }: SidebarProps) {
     <div className="flex flex-col w-64 border-r bg-white dark:bg-zinc-900">
       {/* Logo */}
       <div className="p-6 border-b">
-        <h1 className="text-2xl font-bold bg-linear-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-          DevSpace
-        </h1>
+        <Link href="/dashboard">
+          <Image
+            src="/devspace-logo.png"
+            alt="DevSpace"
+            width={190}
+            height={48}
+            priority
+          />
+        </Link>
       </div>
 
       {/* Navigation */}

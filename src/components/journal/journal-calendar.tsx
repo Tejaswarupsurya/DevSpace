@@ -70,6 +70,16 @@ export function JournalCalendar({
     let currentDate = new Date();
     currentDate.setHours(0, 0, 0, 0);
 
+    // If there's no entry for today, start counting from yesterday
+    const hasEntryToday = sortedEntries.some((e) => {
+      const d = new Date(e.date);
+      d.setHours(0, 0, 0, 0);
+      return isSameDay(d, currentDate);
+    });
+    if (!hasEntryToday) {
+      currentDate.setDate(currentDate.getDate() - 1);
+    }
+
     for (const entry of sortedEntries) {
       const entryDate = new Date(entry.date);
       entryDate.setHours(0, 0, 0, 0);

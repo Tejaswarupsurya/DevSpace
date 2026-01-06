@@ -105,23 +105,27 @@ export function TodayOverview() {
 
       {/* Today Overview Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-sm">Tasks Completed Today</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-3xl font-bold">{tasksDoneToday}</p>
-          </CardContent>
-        </Card>
+        <Link href="/tasks" className="block">
+          <Card className="hover:bg-muted/40 transition-colors">
+            <CardHeader>
+              <CardTitle className="text-sm">Tasks Completed Today</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-3xl font-bold">{tasksDoneToday}</p>
+            </CardContent>
+          </Card>
+        </Link>
 
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-sm">Focus Sessions Today</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-3xl font-bold">{pomodorosToday}</p>
-          </CardContent>
-        </Card>
+        <Link href="/pomodoro" className="block">
+          <Card className="hover:bg-muted/40 transition-colors">
+            <CardHeader>
+              <CardTitle className="text-sm">Focus Sessions Today</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-3xl font-bold">{pomodorosToday}</p>
+            </CardContent>
+          </Card>
+        </Link>
 
         <Card>
           <CardHeader>
@@ -133,9 +137,16 @@ export function TodayOverview() {
             ) : journalDone ? (
               <p className="text-green-600 font-medium">Done for today ✅</p>
             ) : (
-              <Link href="/journal" className="text-primary underline">
-                Write now
-              </Link>
+              <div className="space-y-2">
+                <p className="text-sm text-muted-foreground">
+                  Take a minute to reflect — a few words go a long way.
+                </p>
+                <Link href="/journal">
+                  <Button size="sm" variant="outline">
+                    Reflect on today
+                  </Button>
+                </Link>
+              </div>
             )}
           </CardContent>
         </Card>
