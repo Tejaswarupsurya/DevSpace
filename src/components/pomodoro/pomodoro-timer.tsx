@@ -9,6 +9,7 @@ import { TimerDisplay } from "./timer-display";
 import { SessionStats } from "./session-stats";
 import { SettingsDialog } from "./settings-dialog";
 import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 
 type TimerMode = "work" | "break" | "longBreak";
 type TimerStatus = "idle" | "running" | "paused";
@@ -146,15 +147,18 @@ export function PomodoroTimer() {
           "Time for a long break!",
           "You've completed 4 sessions. Take 15 minutes."
         );
+        toast.success("🎉 Time for a long break! You've completed 4 sessions.");
       } else {
         setMode("break");
         setTimeLeft(durations.break);
         notify("Time for a break!", "Take 5 minutes to refresh.");
+        toast.success("✅ Work session complete! Time for a break.");
       }
     } else {
       setMode("work");
       setTimeLeft(durations.work);
       notify("Break over!", "Ready to focus again?");
+      toast.info("⏰ Break over! Ready to focus again?");
     }
   };
 

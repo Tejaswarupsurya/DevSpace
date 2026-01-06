@@ -17,6 +17,7 @@ import {
 import { cn } from "@/lib/utils";
 import { formatDistanceToNow } from "date-fns";
 import MarkdownPreview from "@uiw/react-markdown-preview";
+import { toast } from "sonner";
 
 interface NotesEditorProps {
   initialContent: string;
@@ -109,6 +110,7 @@ export function NotesEditor({
       } catch (error) {
         console.error("Error saving note:", error);
         setSaveStatus("offline");
+        toast.error("Failed to save note. Changes may be lost.");
       }
     }, 2000);
 
@@ -132,6 +134,7 @@ export function NotesEditor({
     a.download = `notes-${new Date().toISOString().split("T")[0]}.md`;
     a.click();
     URL.revokeObjectURL(url);
+    toast.success("📥 Notes exported successfully!");
   };
 
   // Save status indicator

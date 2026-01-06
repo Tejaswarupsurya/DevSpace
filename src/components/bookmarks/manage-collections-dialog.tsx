@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Trash2, Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
 interface Collection {
   id: string;
@@ -34,25 +35,27 @@ export function ManageCollectionsDialog({
 }: ManageCollectionsDialogProps) {
   const [deletingId, setDeletingId] = useState<string | null>(null);
 
-const handleDelete = async (id: string) => {
-  setDeletingId(id);
-  try {
-    const res = await fetch(`/api/collections/${id}`, {
-      method: "DELETE",
-    });
+  const handleDelete = async (id: string) => {
+    setDeletingId(id);
+    try {
+      const res = await fetch(`/api/collections/${id}`, {
+        method: "DELETE",
+      });
 
-    if (res.ok) {
-      onDelete(id);
-    } else {
-      const error = await res.json();
-      alert(error.error); // Keep this one for actual errors
+      if (res.ok) {
+        onDelete(id);
+        toast.success("Collection deleted successfully!");
+      } else {
+        const error = await res.json();
+        toast.error(error.error || "Failed to delete collection");
+      }
+    } catch (error) {
+      console.error("Error deleting collection:", error);
+      toast.error("Failed to delete collection");
+    } finally {
+      setDeletingId(null);
     }
-  } catch (error) {
-    console.error("Error deleting collection:", error);
-  } finally {
-    setDeletingId(null);
-  }
-};
+  };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>

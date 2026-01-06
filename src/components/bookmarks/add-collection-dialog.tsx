@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { toast } from "sonner";
 
 interface AddCollectionDialogProps {
   open: boolean;
@@ -67,15 +68,19 @@ export function AddCollectionDialog({
       if (res.ok) {
         const collection = await res.json();
         onSuccess(collection);
+        toast.success("Collection created successfully!");
         onOpenChange(false);
         // Reset form
         setName("");
         setEmoji("📚");
         setColor("#3b82f6");
         setDescription("");
+      } else {
+        toast.error("Failed to create collection");
       }
     } catch (error) {
       console.error("Error creating collection:", error);
+      toast.error("Failed to create collection. Please try again.");
     } finally {
       setLoading(false);
     }

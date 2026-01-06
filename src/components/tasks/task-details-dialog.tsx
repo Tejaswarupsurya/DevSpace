@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -27,6 +27,7 @@ import {
 import { CalendarIcon, Trash2, X } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 
 interface Task {
   id: string;
@@ -84,7 +85,10 @@ export function TaskDetailsDialog({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!title.trim()) return;
+    if (!title.trim()) {
+      toast.error("Please enter a task title");
+      return;
+    }
 
     setIsLoading(true);
     try {
@@ -104,10 +108,14 @@ export function TaskDetailsDialog({
       if (res.ok) {
         const updatedTask = await res.json();
         onUpdate(updatedTask);
+        toast.success("Task updated successfully!");
         onOpenChange(false);
+      } else {
+        toast.error("Failed to update task");
       }
     } catch (error) {
       console.error("Error updating task:", error);
+      toast.error("Failed to update task. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -122,14 +130,25 @@ export function TaskDetailsDialog({
 
       if (res.ok) {
         onDelete(task.id);
+        toast.success("Task deleted successfully!");
         onOpenChange(false);
+      } else {
+        toast.error("Failed to delete task");
       }
     } catch (error) {
       console.error("Error deleting task:", error);
+      toast.error("Failed to delete task. Please try again.");
     } finally {
       setIsDeleting(false);
     }
   };
+
+  // Close dialog when task is deleted from card to prevent double DELETE
+  useEffect(() => {
+    if (!open) {
+      setIsDeleting(false);
+    }
+  }, [open]);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>

@@ -10,6 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
+import { toast } from "sonner";
 import {
   MoreVertical,
   ExternalLink,
@@ -52,6 +53,8 @@ export function BookmarkGrid({
   const [deletingId, setDeletingId] = useState<string | null>(null);
 
   const handlePin = async (bookmark: Bookmark) => {
+    const action = bookmark.isPinned ? "unpinned" : "pinned";
+
     try {
       const res = await fetch(`/api/bookmarks/${bookmark.id}`, {
         method: "PATCH",
@@ -62,9 +65,13 @@ export function BookmarkGrid({
       if (res.ok) {
         const updated = await res.json();
         onUpdate(updated);
+        toast.success(`Bookmark ${action}!`);
+      } else {
+        toast.error(`Failed to ${action.slice(0, -2)} bookmark`);
       }
     } catch (error) {
       console.error("Error updating bookmark:", error);
+      toast.error("Failed to update bookmark");
     }
   };
 
@@ -77,9 +84,13 @@ export function BookmarkGrid({
 
       if (res.ok) {
         onDelete(id);
+        toast.success("Bookmark deleted successfully!");
+      } else {
+        toast.error("Failed to delete bookmark");
       }
     } catch (error) {
       console.error("Error deleting bookmark:", error);
+      toast.error("Failed to delete bookmark. Please try again.");
     } finally {
       setDeletingId(null);
     }

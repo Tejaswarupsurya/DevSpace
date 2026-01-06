@@ -27,6 +27,7 @@ import {
 import { CalendarIcon, X } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 
 interface Task {
   id: string;
@@ -78,7 +79,10 @@ export function AddTaskDialog({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!title.trim()) return;
+    if (!title.trim()) {
+      toast.error("Please enter a task title");
+      return;
+    }
 
     setIsLoading(true);
     try {
@@ -98,10 +102,14 @@ export function AddTaskDialog({
       if (res.ok) {
         const task = await res.json();
         onSuccess(task);
+        toast.success("Task created successfully!");
         handleClose();
+      } else {
+        toast.error("Failed to create task");
       }
     } catch (error) {
       console.error("Error creating task:", error);
+      toast.error("Failed to create task. Please try again.");
     } finally {
       setIsLoading(false);
     }

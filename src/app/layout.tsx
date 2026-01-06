@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Toaster } from "sonner";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -13,9 +16,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "DevSpace",
+  title: "DevSpace - Your Developer Workspace",
   description:
-    "Your personal developer workspace",
+    "A comprehensive productivity suite for developers with tasks, snippets, bookmarks, journal, and AI assistance",
 };
 
 export default function RootLayout({
@@ -29,6 +32,9 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
+        <Toaster position="top-right" richColors expand={false} />
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

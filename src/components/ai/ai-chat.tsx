@@ -18,6 +18,7 @@ import {
   Check,
   RotateCcw,
 } from "lucide-react";
+import { toast } from "sonner";
 import ReactMarkdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
@@ -145,10 +146,13 @@ export function AIChat({
         const errorData = await response.json();
         if (response.status === 429) {
           setError(errorData.error);
+          toast.error("⏳ Rate limit reached. Please try again later.");
         } else if (errorData.offTopic) {
           setError(errorData.error);
+          toast.warning("🤔 Please ask programming-related questions.");
         } else {
           setError("Failed to get response. Please try again.");
+          toast.error("Failed to get response. Please try again.");
         }
         setIsLoading(false);
         return;
@@ -203,6 +207,7 @@ export function AIChat({
     } catch (err: any) {
       console.error("Chat error:", err);
       setError("Network error. Please check your connection.");
+      toast.error("🚫 Network error. Please check your connection.");
       setIsLoading(false);
     }
   };
@@ -214,6 +219,7 @@ export function AIChat({
   const copyToClipboard = async (text: string) => {
     await navigator.clipboard.writeText(text);
     setCopiedCode(text);
+    toast.success("✅ Code copied to clipboard!");
     setTimeout(() => setCopiedCode(null), 2000);
   };
 

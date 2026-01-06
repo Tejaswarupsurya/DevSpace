@@ -104,33 +104,57 @@ export default function SnippetsView({
   };
 
   const createSnippet = async (payload: Partial<Snippet>) => {
-    const res = await fetch("/api/snippets", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
-    if (res.ok) {
-      const s = await res.json();
-      setSnippets((prev) => [s, ...prev]);
+    try {
+      const res = await fetch("/api/snippets", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (res.ok) {
+        const s = await res.json();
+        setSnippets((prev) => [s, ...prev]);
+        toast.success("✨ Snippet created successfully!");
+      } else {
+        toast.error("Failed to create snippet");
+      }
+    } catch (error) {
+      console.error("Error creating snippet:", error);
+      toast.error("Failed to create snippet");
     }
   };
 
   const updateSnippet = async (id: string, payload: Partial<Snippet>) => {
-    const res = await fetch(`/api/snippets/${id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
-    if (res.ok) {
-      const s = await res.json();
-      setSnippets((prev) => prev.map((x) => (x.id === id ? s : x)));
+    try {
+      const res = await fetch(`/api/snippets/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (res.ok) {
+        const s = await res.json();
+        setSnippets((prev) => prev.map((x) => (x.id === id ? s : x)));
+        toast.success("📝 Snippet updated successfully!");
+      } else {
+        toast.error("Failed to update snippet");
+      }
+    } catch (error) {
+      console.error("Error updating snippet:", error);
+      toast.error("Failed to update snippet");
     }
   };
 
   const deleteSnippet = async (id: string) => {
-    const res = await fetch(`/api/snippets/${id}`, { method: "DELETE" });
-    if (res.ok) {
-      setSnippets((prev) => prev.filter((x) => x.id !== id));
+    try {
+      const res = await fetch(`/api/snippets/${id}`, { method: "DELETE" });
+      if (res.ok) {
+        setSnippets((prev) => prev.filter((x) => x.id !== id));
+        toast.success("🗑️ Snippet deleted successfully!");
+      } else {
+        toast.error("Failed to delete snippet");
+      }
+    } catch (error) {
+      console.error("Error deleting snippet:", error);
+      toast.error("Failed to delete snippet");
     }
   };
 

@@ -10,6 +10,7 @@ import { Eye, EyeOff, CheckCircle2, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import MarkdownPreview from "@uiw/react-markdown-preview";
 import { format, isToday } from "date-fns";
+import { toast } from "sonner";
 
 interface JournalEntry {
   id: string;
@@ -183,11 +184,23 @@ export function JournalEditor({
         onSave(savedEntry);
         setSaveStatus("saved");
         // Update last saved snapshot to current
-        lastSavedRef.current = snapshot();
+        const newSnapshot = snapshot();
+        const wasEmpty =
+          !lastSavedRef.current ||
+          (!lastSavedRef.current.mood && !lastSavedRef.current.content.trim());
+        const isNowComplete = newSnapshot.mood && newSnapshot.content.trim();
+
+        // Only show completion toast once when transitioning from empty to complete
+        if (wasEmpty && isNowComplete && isEditingToday) {
+          toast.success("✍️ Journal entry completed for today!");
+        }
+
+        lastSavedRef.current = newSnapshot;
       }
     } catch (error) {
       console.error("Failed to save entry:", error);
       setSaveStatus("idle");
+      toast.error("📝 Failed to save journal entry. Please try again.");
     }
   };
 

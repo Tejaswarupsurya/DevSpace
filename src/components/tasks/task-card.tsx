@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { Calendar, AlertCircle, Flag, Trash2 } from "lucide-react";
 import { format, isPast, isToday } from "date-fns";
+import { toast } from "sonner";
 
 interface Task {
   id: string;
@@ -42,6 +43,27 @@ export function TaskCard({ task, onClick, onDelete }: TaskCardProps) {
     useDraggable({
       id: task.id,
     });
+
+  const handleCardDelete = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+
+    try {
+      const res = await fetch(`/api/tasks/${task.id}`, {
+        method: "DELETE",
+      });
+
+      if (res.ok) {
+        toast.success("Task deleted successfully!");
+        onDelete?.(task.id);
+      } else {
+        toast.error("Failed to delete task");
+      }
+    } catch (error) {
+      console.error("Error deleting task:", error);
+      toast.error("Failed to delete task. Please try again.");
+    }
+  };
 
   const style = transform
     ? {
@@ -81,10 +103,7 @@ export function TaskCard({ task, onClick, onDelete }: TaskCardProps) {
         {onDelete && (
           <button
             type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              onDelete(task.id);
-            }}
+            onClick={handleCardDelete}
             className="text-muted-foreground hover:text-destructive ml-2"
             aria-label="Delete task"
           >

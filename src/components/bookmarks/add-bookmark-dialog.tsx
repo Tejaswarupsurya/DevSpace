@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { toast } from "sonner";
 import {
   Select,
   SelectContent,
@@ -74,6 +75,7 @@ export function AddBookmarkDialog({
         setMetadata(data);
         setTitle(data.title);
         setDescription(data.description);
+        toast.success("Metadata fetched successfully!");
       } else {
         throw new Error("Failed to fetch");
       }
@@ -93,9 +95,8 @@ export function AddBookmarkDialog({
         imageUrl: null,
       });
 
-      // Show toast or alert
-      alert(
-        `⚠️ Couldn't fetch metadata (site blocked scraping).\nUsing "${fallbackTitle}" as title. You can edit it manually.`
+      toast.warning(
+        `Couldn't fetch metadata. Using "${fallbackTitle}" as title.`
       );
     } finally {
       setFetchingMetadata(false);
@@ -135,6 +136,7 @@ export function AddBookmarkDialog({
       if (res.ok) {
         const bookmark = await res.json();
         onSuccess(bookmark);
+        toast.success("Bookmark added successfully!");
         onOpenChange(false);
         // Reset form
         setUrl("");
@@ -143,9 +145,12 @@ export function AddBookmarkDialog({
         setCollectionId("");
         setTags([]);
         setMetadata(null);
+      } else {
+        toast.error("Failed to add bookmark");
       }
     } catch (error) {
       console.error("Error creating bookmark:", error);
+      toast.error("Failed to add bookmark. Please try again.");
     } finally {
       setLoading(false);
     }

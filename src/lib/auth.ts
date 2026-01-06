@@ -39,4 +39,5 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   pages: {
     signIn: "/login",
   },
+  trustHost: true, // Trust the host headers in serverless environments
 });

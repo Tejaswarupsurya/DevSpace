@@ -10,6 +10,7 @@ import {
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
+import { toast } from "sonner";
 import { KanbanColumn } from "./kanban-column";
 import { TaskCard } from "./task-card";
 import { AddTaskDialog } from "./add-task-dialog";
@@ -81,13 +82,20 @@ export function KanbanBoard({ initialTasks }: KanbanBoardProps) {
 
     // Update on server
     try {
-      await fetch(`/api/tasks/${taskId}`, {
+      const res = await fetch(`/api/tasks/${taskId}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status: newStatus }),
       });
+
+      if (res.ok) {
+        toast.success("Task moved successfully!");
+      } else {
+        throw new Error("Failed to update");
+      }
     } catch (error) {
       console.error("Error updating task:", error);
+      toast.error("Failed to move task");
       // Revert on error
       setTasks((prev) =>
         prev.map((t) => (t.id === taskId ? { ...t, status: task.status } : t))
@@ -106,20 +114,8 @@ export function KanbanBoard({ initialTasks }: KanbanBoardProps) {
   };
 
   const handleDeleteTask = (taskId: string) => {
-    // Optimistic removal
+    // Only update state - the actual DELETE is handled by TaskDetailsDialog or card delete
     setTasks((prev) => prev.filter((t) => t.id !== taskId));
-    // Server delete
-    (async () => {
-      try {
-        const res = await fetch(`/api/tasks/${taskId}`, { method: "DELETE" });
-        if (!res.ok) {
-          throw new Error("Failed to delete on server");
-        }
-      } catch (err) {
-        console.error("Error deleting task:", err);
-        // Optionally refetch or restore; for simplicity, no rollback here
-      }
-    })();
   };
 
   const openAddDialog = (status: string) => {

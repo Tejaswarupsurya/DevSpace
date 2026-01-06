@@ -1,0 +1,568 @@
+<img width="100%" src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=2,3,12,14&height=180&section=header&text=DevSpace&fontSize=60&fontColor=fff&fontAlignY=35&animation=fadeIn&desc=Your%20Personal%20Developer%20Productivity%20Hub&descSize=18&descAlignY=55"/>
+
+<div align="center">
+
+### 🚀 A Modern Full-Stack Developer Productivity Platform
+
+[![Next.js](https://img.shields.io/badge/Next.js_16-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+[![Prisma](https://img.shields.io/badge/Prisma-2D3748?style=for-the-badge&logo=prisma&logoColor=white)](https://www.prisma.io/)
+
+<br/>
+
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![NextAuth](https://img.shields.io/badge/NextAuth.js-000000?style=for-the-badge&logo=auth0&logoColor=white)](https://authjs.dev/)
+[![Google Gemini](https://img.shields.io/badge/Google_Gemini-8E75B2?style=for-the-badge&logo=googlegemini&logoColor=white)](https://ai.google.dev/)
+[![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://vercel.com/)
+
+<br/>
+
+**Production-Ready** | **Modern UI/UX** | **AI-Powered** | **Fully Responsive**
+
+**An all-in-one developer workspace featuring Kanban tasks, code snippets, Pomodoro timer, daily journal, bookmarks manager, and an AI coding assistant — all in one beautiful interface.**
+
+[🚀 Live Demo](#) · [📝 Report Bug](https://github.com/yourusername/devspace/issues) · [💡 Request Feature](https://github.com/yourusername/devspace/issues)
+
+</div>
+
+---
+
+## 📋 Table of Contents
+
+- [Overview](#-overview)
+- [Features](#-features)
+- [Tech Stack](#-tech-stack)
+- [Architecture](#-architecture)
+- [Getting Started](#-getting-started)
+- [Environment Variables](#-environment-variables)
+- [Project Structure](#-project-structure)
+- [API Routes](#-api-routes)
+- [Deployment](#-deployment)
+- [Screenshots](#-screenshots)
+- [License](#-license)
+
+---
+
+## 🎯 Overview
+
+**DevSpace** is a comprehensive productivity platform designed specifically for developers. It brings together all the essential tools needed for daily development work into a single, cohesive application with a beautiful, modern interface.
+
+### ✨ Highlights
+
+| Feature               | Description                                                            |
+| --------------------- | ---------------------------------------------------------------------- |
+| ✅ **Kanban Board**   | Drag & drop task management with priorities and tags                   |
+| 💻 **Code Snippets**  | Save, organize, and copy code snippets with syntax highlighting        |
+| ⏱️ **Pomodoro Timer** | Stay focused with customizable work/break sessions and streak tracking |
+| 📓 **Daily Journal**  | Track your progress with mood tracking and markdown support            |
+| 🔖 **Bookmarks**      | Organize developer resources with collections and auto-metadata        |
+| 📝 **Quick Notes**    | Markdown notes with live preview and quick access                      |
+| 🤖 **AI Assistant**   | Context-aware coding assistant powered by Google Gemini                |
+| 🔐 **GitHub OAuth**   | Secure authentication with GitHub                                      |
+
+---
+
+## ✨ Features
+
+### 📊 Dashboard
+
+<div align="center">
+
+| Feature                   | Description                                              |
+| ------------------------- | -------------------------------------------------------- |
+| 📈 **Today's Overview**   | Tasks, pomodoro sessions, and journal status at a glance |
+| 📅 **Contribution Graph** | GitHub-style activity visualization                      |
+| ⚡ **Quick Actions**      | Fast access to create tasks, notes, and more             |
+| 🔄 **Recent Activity**    | Track your latest actions across all modules             |
+
+</div>
+
+### ✅ Task Management
+
+- **Kanban Board** with drag & drop columns (Todo, In Progress, Review, Done)
+- **Priority Levels** — Low, Medium, High, Urgent with color coding
+- **Tags System** — Organize tasks with custom tags
+- **Task Details** — Descriptions, due dates, and status tracking
+- **Bulk Operations** — Quick status updates and deletions
+
+### 💻 Code Snippets
+
+- **Syntax Highlighting** — Support for 20+ programming languages
+- **One-Click Copy** — Copy snippets to clipboard instantly
+- **Tag Organization** — Filter and search by tags
+- **Description Support** — Add context to your snippets
+- **Language Detection** — Automatic syntax highlighting
+
+### ⏱️ Pomodoro Timer
+
+- **Customizable Sessions** — Adjust work/break durations
+- **Audio Notifications** — Get notified when sessions end
+- **Session Statistics** — Track daily and weekly productivity
+- **Streak System** — Build consistency with streak tracking
+- **Background Mode** — Timer continues while you work
+
+### 📓 Daily Journal
+
+- **Calendar View** — Navigate entries by date
+- **Mood Tracking** — Log your daily mood with emojis
+- **Markdown Support** — Rich text formatting
+- **Entry Statistics** — Word count and writing streaks
+- **Reflection Prompts** — Guided journaling experience
+
+### 🔖 Bookmarks Manager
+
+- **Collections** — Organize bookmarks into custom collections
+- **Auto Metadata** — Automatically fetch title and favicon
+- **Tag System** — Additional organization with tags
+- **Quick Search** — Find bookmarks instantly
+- **Bulk Import** — Import from browser bookmarks
+
+### 📝 Quick Notes
+
+- **Auto-Save** — Never lose your work
+- **Markdown Preview** — Side-by-side editing and preview
+- **Quick Access** — Fast note creation from anywhere
+- **Search** — Full-text search across all notes
+
+### 🤖 AI Assistant
+
+- **Code-Focused** — Specialized for development questions
+- **Workspace Context** — Access to your tasks, snippets, and notes
+- **Conversation History** — Persistent chat history
+- **Rate Limiting** — Free tier friendly (5 RPM, 25 RPD)
+- **Code Highlighting** — Beautiful syntax highlighting in responses
+- **Copy Code** — One-click copy for code blocks
+
+---
+
+## 🛠️ Tech Stack
+
+### Frontend
+
+| Technology       | Purpose                         |
+| ---------------- | ------------------------------- |
+| **Next.js 16**   | React framework with App Router |
+| **TypeScript**   | Type-safe development           |
+| **Tailwind CSS** | Utility-first styling           |
+| **shadcn/ui**    | Beautiful UI components         |
+| **Lucide Icons** | Modern icon library             |
+| **@dnd-kit**     | Drag and drop functionality     |
+
+### Backend
+
+| Technology             | Purpose               |
+| ---------------------- | --------------------- |
+| **Next.js API Routes** | Server-side endpoints |
+| **Prisma**             | Database ORM          |
+| **PostgreSQL**         | Relational database   |
+| **NextAuth.js v5**     | Authentication        |
+| **Google Gemini**      | AI capabilities       |
+
+### Infrastructure
+
+| Service          | Purpose                     |
+| ---------------- | --------------------------- |
+| **Vercel**       | Deployment & hosting        |
+| **Supabase**     | PostgreSQL database hosting |
+| **GitHub OAuth** | Authentication provider     |
+
+---
+
+## 🏗️ Architecture
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                              CLIENT LAYER                                │
+│                    (Next.js App Router + React Server Components)        │
+│  ┌───────────┐ ┌───────────┐ ┌───────────┐ ┌───────────┐ ┌───────────┐ │
+│  │ Dashboard │ │   Tasks   │ │ Snippets  │ │  Journal  │ │    AI     │ │
+│  │   View    │ │  Kanban   │ │  Library  │ │  Calendar │ │   Chat    │ │
+│  └───────────┘ └───────────┘ └───────────┘ └───────────┘ └───────────┘ │
+└────────────────────────────────┬────────────────────────────────────────┘
+                                 │
+                                 ▼
+┌─────────────────────────────────────────────────────────────────────────┐
+│                            API LAYER (Route Handlers)                    │
+│  ┌──────────────────────────────────────────────────────────────────┐   │
+│  │                         MIDDLEWARE                                │   │
+│  │  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐             │   │
+│  │  │ NextAuth │ │ Session  │ │   Rate   │ │  Input   │             │   │
+│  │  │  Auth    │ │  Check   │ │ Limiting │ │ Validate │             │   │
+│  │  └──────────┘ └──────────┘ └──────────┘ └──────────┘             │   │
+│  └──────────────────────────────────────────────────────────────────┘   │
+│  ┌──────────────────────────────────────────────────────────────────┐   │
+│  │                          API ROUTES                               │   │
+│  │  /api/tasks  /api/snippets  /api/journal  /api/ai  /api/bookmarks │   │
+│  └──────────────────────────────────────────────────────────────────┘   │
+└────────────────────────────────┬────────────────────────────────────────┘
+                                 │
+              ┌──────────────────┼──────────────────┐
+              │                  │                  │
+              ▼                  ▼                  ▼
+┌──────────────────┐  ┌──────────────────┐  ┌──────────────────┐
+│    POSTGRESQL    │  │  GOOGLE GEMINI   │  │     GITHUB       │
+│    (Supabase)    │  │       AI         │  │      OAuth       │
+│  ┌────────────┐  │  │  ┌────────────┐  │  │  ┌────────────┐  │
+│  │   Tasks    │  │  │  │  gemini-   │  │  │  │   OAuth    │  │
+│  │  Snippets  │  │  │  │    pro     │  │  │  │  Provider  │  │
+│  │  Journal   │  │  │  │ Streaming  │  │  │  │            │  │
+│  │  Bookmarks │  │  │  └────────────┘  │  │  └────────────┘  │
+│  │   Notes    │  │  │                  │  │                  │
+│  │    AI      │  │  │                  │  │                  │
+│  └────────────┘  │  │                  │  │                  │
+└──────────────────┘  └──────────────────┘  └──────────────────┘
+```
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- **Node.js** 18+ (LTS recommended)
+- **npm** or **pnpm**
+- **PostgreSQL** database (or Supabase account)
+- **GitHub OAuth App** credentials
+- **Google AI API Key** (for AI features)
+
+### Installation
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/yourusername/devspace.git
+cd devspace
+
+# 2. Install dependencies
+npm install
+
+# 3. Set up environment variables
+cp .env.example .env
+# Edit .env with your credentials
+
+# 4. Generate Prisma client & run migrations
+npx prisma generate
+npx prisma migrate dev
+
+# 5. Start development server
+npm run dev
+
+# 6. Open in browser
+# http://localhost:3000
+```
+
+---
+
+## 🔑 Environment Variables
+
+Create a `.env` file in the root directory:
+
+```env
+# ═══════════════════════════════════════════════════════════
+# DATABASE (PostgreSQL / Supabase)
+# ═══════════════════════════════════════════════════════════
+DATABASE_URL="postgresql://user:password@host:5432/devspace?pgbouncer=true"
+DIRECT_URL="postgresql://user:password@host:5432/devspace"
+
+# ═══════════════════════════════════════════════════════════
+# AUTHENTICATION (NextAuth.js)
+# ═══════════════════════════════════════════════════════════
+AUTH_SECRET="your-random-secret-min-32-characters"
+AUTH_URL="http://localhost:3000"
+
+# GitHub OAuth
+AUTH_GITHUB_ID="your-github-client-id"
+AUTH_GITHUB_SECRET="your-github-client-secret"
+
+# ═══════════════════════════════════════════════════════════
+# AI (Google Gemini)
+# ═══════════════════════════════════════════════════════════
+GEMINI_API_KEY="your-google-gemini-api-key"
+GEMINI_MODEL="gemini-pro"
+```
+
+### Setting up GitHub OAuth
+
+1. Go to [GitHub Developer Settings](https://github.com/settings/developers)
+2. Create a new OAuth App
+3. Set Homepage URL: `http://localhost:3000`
+4. Set Callback URL: `http://localhost:3000/api/auth/callback/github`
+5. Copy Client ID and Client Secret to `.env`
+
+### Setting up Google Gemini
+
+1. Go to [Google AI Studio](https://aistudio.google.com/)
+2. Create an API key
+3. Copy to `GEMINI_API_KEY` in `.env`
+
+---
+
+## 📁 Project Structure
+
+```
+DevSpace/
+├── 📄 package.json           # Dependencies & scripts
+├── 📄 next.config.ts         # Next.js configuration
+├── 📄 tailwind.config.ts     # Tailwind CSS config
+├── 📄 tsconfig.json          # TypeScript config
+├── 📄 components.json        # shadcn/ui config
+│
+├── 📂 prisma/
+│   └── schema.prisma         # Database schema
+│
+├── 📂 public/                # Static assets
+│
+└── 📂 src/
+    ├── 📂 app/
+    │   ├── layout.tsx        # Root layout
+    │   ├── page.tsx          # Landing → Dashboard redirect
+    │   ├── globals.css       # Global styles
+    │   ├── not-found.tsx     # Custom 404 page
+    │   │
+    │   ├── 📂 (dashboard)/   # Dashboard group
+    │   │   ├── layout.tsx    # Dashboard layout with sidebar
+    │   │   ├── 📂 dashboard/ # Main dashboard
+    │   │   ├── 📂 tasks/     # Kanban board
+    │   │   ├── 📂 snippets/  # Code snippets
+    │   │   ├── 📂 pomodoro/  # Pomodoro timer
+    │   │   ├── 📂 journal/   # Daily journal
+    │   │   ├── 📂 bookmarks/ # Bookmarks manager
+    │   │   ├── 📂 notes/     # Quick notes
+    │   │   └── 📂 ai/        # AI assistant
+    │   │
+    │   ├── 📂 api/           # API routes
+    │   │   ├── 📂 auth/      # NextAuth endpoints
+    │   │   ├── 📂 tasks/     # Task CRUD
+    │   │   ├── 📂 snippets/  # Snippet CRUD
+    │   │   ├── 📂 journal/   # Journal CRUD
+    │   │   ├── 📂 bookmarks/ # Bookmark CRUD
+    │   │   ├── 📂 collections/ # Collection CRUD
+    │   │   ├── 📂 notes/     # Note CRUD
+    │   │   ├── 📂 pomodoro/  # Pomodoro sessions
+    │   │   └── 📂 ai/        # AI chat & context
+    │   │
+    │   └── 📂 login/         # Login page
+    │
+    ├── 📂 components/
+    │   ├── 📂 ui/            # shadcn/ui components
+    │   ├── 📂 dashboard/     # Dashboard components
+    │   ├── 📂 tasks/         # Task/Kanban components
+    │   ├── 📂 snippets/      # Snippet components
+    │   ├── 📂 pomodoro/      # Timer components
+    │   ├── 📂 journal/       # Journal components
+    │   ├── 📂 bookmarks/     # Bookmark components
+    │   ├── 📂 notes/         # Note components
+    │   └── 📂 ai/            # AI chat components
+    │
+    └── 📂 lib/
+        ├── auth.ts           # NextAuth configuration
+        ├── prisma.ts         # Prisma client
+        ├── github.ts         # GitHub API utilities
+        └── utils.ts          # Utility functions
+```
+
+---
+
+## 🛣️ API Routes
+
+### Authentication
+
+| Method     | Route         | Description           |
+| ---------- | ------------- | --------------------- |
+| `GET/POST` | `/api/auth/*` | NextAuth.js endpoints |
+
+### Tasks
+
+| Method   | Route             | Description        |
+| -------- | ----------------- | ------------------ |
+| `GET`    | `/api/tasks`      | Get all user tasks |
+| `POST`   | `/api/tasks`      | Create new task    |
+| `PUT`    | `/api/tasks/[id]` | Update task        |
+| `DELETE` | `/api/tasks/[id]` | Delete task        |
+
+### Snippets
+
+| Method   | Route                | Description           |
+| -------- | -------------------- | --------------------- |
+| `GET`    | `/api/snippets`      | Get all user snippets |
+| `POST`   | `/api/snippets`      | Create new snippet    |
+| `PUT`    | `/api/snippets/[id]` | Update snippet        |
+| `DELETE` | `/api/snippets/[id]` | Delete snippet        |
+
+### Bookmarks
+
+| Method   | Route                 | Description        |
+| -------- | --------------------- | ------------------ |
+| `GET`    | `/api/bookmarks`      | Get all bookmarks  |
+| `POST`   | `/api/bookmarks`      | Create bookmark    |
+| `DELETE` | `/api/bookmarks/[id]` | Delete bookmark    |
+| `GET`    | `/api/metadata`       | Fetch URL metadata |
+
+### Collections
+
+| Method   | Route                   | Description         |
+| -------- | ----------------------- | ------------------- |
+| `GET`    | `/api/collections`      | Get all collections |
+| `POST`   | `/api/collections`      | Create collection   |
+| `DELETE` | `/api/collections/[id]` | Delete collection   |
+
+### Journal
+
+| Method | Route          | Description         |
+| ------ | -------------- | ------------------- |
+| `GET`  | `/api/journal` | Get journal entries |
+| `POST` | `/api/journal` | Create/update entry |
+
+### Pomodoro
+
+| Method | Route           | Description           |
+| ------ | --------------- | --------------------- |
+| `GET`  | `/api/pomodoro` | Get session stats     |
+| `POST` | `/api/pomodoro` | Log completed session |
+
+### AI Assistant
+
+| Method   | Route                   | Description              |
+| -------- | ----------------------- | ------------------------ |
+| `POST`   | `/api/ai/chat`          | Send message to AI       |
+| `GET`    | `/api/ai/context`       | Get workspace context    |
+| `GET`    | `/api/ai/conversations` | Get conversation history |
+| `DELETE` | `/api/ai/conversations` | Delete conversation      |
+
+---
+
+## 🚀 Deployment
+
+### Vercel (Recommended)
+
+1. **Push to GitHub**
+
+   ```bash
+   git add .
+   git commit -m "Initial commit"
+   git push origin main
+   ```
+
+2. **Import to Vercel**
+
+   - Go to [vercel.com](https://vercel.com)
+   - Import your GitHub repository
+   - Configure environment variables
+
+3. **Set Build Command**
+
+   ```
+   npx prisma generate && npx prisma migrate deploy && next build
+   ```
+
+4. **Update OAuth Callback**
+   - Update GitHub OAuth callback URL to production domain
+
+### Environment Variables for Production
+
+| Variable             | Value                                |
+| -------------------- | ------------------------------------ |
+| `DATABASE_URL`       | Your production PostgreSQL URL       |
+| `DIRECT_URL`         | Direct database URL (for migrations) |
+| `AUTH_SECRET`        | Random 32+ character string          |
+| `AUTH_URL`           | `https://your-domain.com`            |
+| `AUTH_GITHUB_ID`     | GitHub OAuth Client ID               |
+| `AUTH_GITHUB_SECRET` | GitHub OAuth Client Secret           |
+| `GEMINI_API_KEY`     | Google Gemini API Key                |
+
+---
+
+## 📸 Screenshots
+
+<div align="center">
+
+### 🏠 Dashboard
+
+_Overview of your daily productivity_
+
+### ✅ Kanban Board
+
+_Drag & drop task management_
+
+### 💻 Code Snippets
+
+_Syntax-highlighted snippet library_
+
+### ⏱️ Pomodoro Timer
+
+_Focus sessions with statistics_
+
+### 📓 Journal
+
+_Daily reflections with mood tracking_
+
+### 🤖 AI Assistant
+
+_Context-aware coding help_
+
+</div>
+
+---
+
+## 📝 Scripts
+
+| Script      | Command                | Description              |
+| ----------- | ---------------------- | ------------------------ |
+| `dev`       | `next dev --turbopack` | Start development server |
+| `build`     | `next build`           | Build for production     |
+| `start`     | `next start`           | Start production server  |
+| `lint`      | `next lint`            | Run ESLint               |
+| `db:push`   | `prisma db push`       | Push schema to database  |
+| `db:studio` | `prisma studio`        | Open Prisma Studio       |
+
+---
+
+## 🔒 Security Features
+
+| Feature                   | Implementation                    |
+| ------------------------- | --------------------------------- |
+| ✅ **OAuth 2.0**          | Secure GitHub authentication      |
+| ✅ **Session Management** | JWT-based sessions                |
+| ✅ **API Protection**     | All routes require authentication |
+| ✅ **Rate Limiting**      | AI endpoint rate limiting (5 RPM) |
+| ✅ **Input Validation**   | Server-side validation            |
+| ✅ **CSRF Protection**    | Built-in NextAuth protection      |
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Please follow these steps:
+
+1. **Fork** the repository
+2. **Create** your feature branch
+   ```bash
+   git checkout -b feature/AmazingFeature
+   ```
+3. **Commit** your changes
+   ```bash
+   git commit -m 'Add some AmazingFeature'
+   ```
+4. **Push** to the branch
+   ```bash
+   git push origin feature/AmazingFeature
+   ```
+5. **Open** a Pull Request
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+
+---
+
+<div align="center">
+
+### ⭐ Star this repository if you found it helpful!
+
+**Built with ❤️ for developers who value productivity**
+
+</div>
+
+<img width="100%" src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=2,3,12,14&height=100&section=footer"/>
