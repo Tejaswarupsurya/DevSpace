@@ -33,6 +33,7 @@ model User {
   pomodoroSessions PomodoroSession[]
   note          Note?
   snippets      Snippet[]
+  aiConversations AIConversation[]
   @@index([email])
 }
 model Snippet {
@@ -208,5 +209,37 @@ model PomodoroSession {
   createdAt   DateTime @default(now())
   
   @@index([userId])
+  @@index([createdAt])
+}
+
+// ============================================
+// AI ASSISTANT
+// ============================================
+
+model AIConversation {
+  id              String      @id @default(cuid())
+  title           String?     // Auto-generated from first message
+  userId          String
+  user            User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  messages        AIMessage[]
+  totalTokens     Int         @default(0)
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  
+  @@index([userId])
+  @@index([createdAt])
+}
+
+model AIMessage {
+  id              String         @id @default(cuid())
+  conversationId  String
+  conversation    AIConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  role            String         // user, assistant, system
+  content         String         @db.Text
+  contextType     String?        // tasks, snippets, bookmarks, journal, code_review
+  tokensUsed      Int?
+  createdAt       DateTime       @default(now())
+  
+  @@index([conversationId])
   @@index([createdAt])
 }

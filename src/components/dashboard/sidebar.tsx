@@ -26,15 +26,30 @@ interface SidebarProps {
   };
 }
 
-const navigation = [
-  { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-  { name: "Bookmarks", href: "/bookmarks", icon: Bookmark },
-  { name: "Tasks", href: "/tasks", icon: CheckSquare },
-  { name: "Notes", href: "/notes", icon: StickyNote },
-  { name: "Journal", href: "/journal", icon: BookOpen },
-  { name: "Snippets", href: "/snippets", icon: Code2 },
-  { name: "Pomodoro", href: "/pomodoro", icon: Timer },
-  { name: "AI Assistant", href: "/ai", icon: Sparkles },
+const navigationSections = [
+  {
+    section: "Work",
+    items: [
+      { name: "Tasks", href: "/tasks", icon: CheckSquare },
+      { name: "Pomodoro", href: "/pomodoro", icon: Timer },
+    ],
+  },
+  {
+    section: "Knowledge",
+    items: [
+      { name: "Notes", href: "/notes", icon: StickyNote },
+      { name: "Snippets", href: "/snippets", icon: Code2 },
+      { name: "Bookmarks", href: "/bookmarks", icon: Bookmark },
+    ],
+  },
+  {
+    section: "Reflection",
+    items: [{ name: "Journal", href: "/journal", icon: BookOpen }],
+  },
+  {
+    section: "Tools",
+    items: [{ name: "AI Assistant", href: "/ai", icon: Sparkles }],
+  },
 ];
 
 export function Sidebar({ user }: SidebarProps) {
@@ -43,40 +58,64 @@ export function Sidebar({ user }: SidebarProps) {
   return (
     <div className="flex flex-col w-64 border-r bg-white dark:bg-zinc-900">
       {/* Logo */}
-      <div className="p-6 border-b">
+      <div className="p-6 border-b flex items-center">
         <Link href="/dashboard">
           <Image
             src="/devspace-logo.png"
             alt="DevSpace"
-            width={190}
-            height={48}
+            width={150}
+            height={38}
             priority
           />
         </Link>
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 p-4 space-y-1">
-        {navigation.map((item) => {
-          const isActive = pathname === item.href;
-          const Icon = item.icon;
+      <nav className="flex-1 p-4 space-y-6 overflow-y-auto">
+        {/* Dashboard - standalone */}
+        <Link
+          href="/dashboard"
+          className={cn(
+            "flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
+            pathname === "/dashboard"
+              ? "bg-blue-50 text-blue-600 dark:bg-blue-950 dark:text-blue-400"
+              : "text-zinc-700 hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-800"
+          )}
+        >
+          <LayoutDashboard className="w-5 h-5" />
+          Dashboard
+        </Link>
 
-          return (
-            <Link
-              key={item.name}
-              href={item.href}
-              className={cn(
-                "flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
-                isActive
-                  ? "bg-blue-50 text-blue-600 dark:bg-blue-950 dark:text-blue-400"
-                  : "text-zinc-700 hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-800"
-              )}
-            >
-              <Icon className="w-5 h-5" />
-              {item.name}
-            </Link>
-          );
-        })}
+        {/* Sectioned navigation */}
+        {navigationSections.map((section) => (
+          <div key={section.section}>
+            <h3 className="px-3 mb-2 text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">
+              {section.section}
+            </h3>
+            <div className="space-y-1">
+              {section.items.map((item) => {
+                const isActive = pathname === item.href;
+                const Icon = item.icon;
+
+                return (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    className={cn(
+                      "flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
+                      isActive
+                        ? "bg-blue-50 text-blue-600 dark:bg-blue-950 dark:text-blue-400"
+                        : "text-zinc-700 hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-800"
+                    )}
+                  >
+                    <Icon className="w-5 h-5" />
+                    {item.name}
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        ))}
       </nav>
 
       {/* User Profile */}
