@@ -21,8 +21,10 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { DialogClose } from "@/components/ui/dialog";
-import { Copy, Plus, Trash2, Pencil, Check } from "lucide-react";
+import { Copy, Plus, Trash2, Pencil, Check, Maximize2 } from "lucide-react";
 import { toast } from "sonner";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 interface Snippet {
   id: string;
@@ -43,6 +45,21 @@ const LANGUAGES = [
   "rust",
   "bash",
   "sql",
+  "html",
+  "css",
+  "json",
+  "yaml",
+  "markdown",
+  "cpp",
+  "c",
+  "csharp",
+  "php",
+  "ruby",
+  "swift",
+  "kotlin",
+  "dart",
+  "graphql",
+  "dockerfile",
 ];
 
 export default function SnippetsView({
@@ -150,14 +167,18 @@ export default function SnippetsView({
           value={q}
           onChange={(e) => setQ(e.target.value)}
         />
-        <Select value={language} onValueChange={(v) => setLanguage(v)}>
+        <Select
+          value={language || "all"}
+          onValueChange={(v) => setLanguage(v === "all" ? undefined : v)}
+        >
           <SelectTrigger>
-            <SelectValue placeholder="Language" />
+            <SelectValue placeholder="All Languages" />
           </SelectTrigger>
           <SelectContent>
+            <SelectItem value="all">All Languages</SelectItem>
             {LANGUAGES.map((l) => (
               <SelectItem key={l} value={l}>
-                {l}
+                {l.charAt(0).toUpperCase() + l.slice(1)}
               </SelectItem>
             ))}
           </SelectContent>
@@ -259,9 +280,85 @@ export default function SnippetsView({
                     {s.description}
                   </p>
                 ) : null}
-                <pre className="text-xs bg-zinc-950 text-zinc-100 p-3 rounded-md overflow-auto max-h-48">
-                  <code>{s.code}</code>
-                </pre>
+                <div className="relative group rounded-md overflow-hidden">
+                  <button
+                    onClick={() => copyToClipboard(s.id, s.code)}
+                    className="absolute right-2 top-2 p-1.5 rounded bg-gray-700 hover:bg-gray-600 opacity-0 group-hover:opacity-100 transition-opacity z-10"
+                    title="Copy code"
+                  >
+                    {copiedId === s.id ? (
+                      <Check className="w-3.5 h-3.5 text-green-400" />
+                    ) : (
+                      <Copy className="w-3.5 h-3.5 text-gray-300" />
+                    )}
+                  </button>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <button
+                        className="absolute right-10 top-2 p-1.5 rounded bg-gray-700 hover:bg-gray-600 opacity-0 group-hover:opacity-100 transition-opacity z-10"
+                        title="View full screen"
+                      >
+                        <Maximize2 className="w-3.5 h-3.5 text-gray-300" />
+                      </button>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-4xl max-h-[85vh] overflow-y-auto">
+                      <DialogHeader>
+                        <DialogTitle>{s.title}</DialogTitle>
+                      </DialogHeader>
+                      <div className="space-y-3">
+                        <div className="flex flex-wrap gap-2">
+                          <Badge variant="secondary">{s.language}</Badge>
+                          {s.tags.map((t, i) => (
+                            <Badge key={i}>{t}</Badge>
+                          ))}
+                        </div>
+                        {s.description && (
+                          <p className="text-sm text-muted-foreground">
+                            {s.description}
+                          </p>
+                        )}
+                        <div className="relative group">
+                          <button
+                            onClick={() => copyToClipboard(s.id, s.code)}
+                            className="absolute right-2 top-2 p-1.5 rounded bg-gray-700 hover:bg-gray-600 opacity-0 group-hover:opacity-100 transition-opacity z-10"
+                            title="Copy code"
+                          >
+                            {copiedId === s.id ? (
+                              <Check className="w-3.5 h-3.5 text-green-400" />
+                            ) : (
+                              <Copy className="w-3.5 h-3.5 text-gray-300" />
+                            )}
+                          </button>
+                          <SyntaxHighlighter
+                            language={s.language}
+                            style={vscDarkPlus}
+                            showLineNumbers
+                            customStyle={{
+                              margin: 0,
+                              borderRadius: "0.375rem",
+                              fontSize: "0.875rem",
+                            }}
+                          >
+                            {s.code}
+                          </SyntaxHighlighter>
+                        </div>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+                  <SyntaxHighlighter
+                    language={s.language}
+                    style={vscDarkPlus}
+                    customStyle={{
+                      margin: 0,
+                      borderRadius: "0.375rem",
+                      maxHeight: "12rem",
+                      fontSize: "0.75rem",
+                    }}
+                    wrapLines
+                  >
+                    {s.code}
+                  </SyntaxHighlighter>
+                </div>
               </CardContent>
             </Card>
           ))}
@@ -319,12 +416,12 @@ function SnippetForm({
       />
       <Select value={language} onValueChange={(v) => setLanguage(v)}>
         <SelectTrigger>
-          <SelectValue placeholder="Language" />
+          <SelectValue placeholder="Select Language" />
         </SelectTrigger>
         <SelectContent>
           {LANGUAGES.map((l) => (
             <SelectItem key={l} value={l}>
-              {l}
+              {l.charAt(0).toUpperCase() + l.slice(1)}
             </SelectItem>
           ))}
         </SelectContent>
@@ -339,13 +436,40 @@ function SnippetForm({
         onChange={(e) => setDescription(e.target.value)}
         placeholder="Description (optional)"
         className="resize-none"
+        rows={2}
       />
-      <Textarea
-        value={code}
-        onChange={(e) => setCode(e.target.value)}
-        placeholder="Code"
-        className="min-h-48 max-h-80 overflow-auto resize-none font-mono"
-      />
+      <div className="space-y-2">
+        <label className="text-sm font-medium">Code</label>
+        <div className="relative rounded-md overflow-hidden border">
+          <Textarea
+            value={code}
+            onChange={(e) => setCode(e.target.value)}
+            placeholder={`// Enter your ${language} code here...\n\nfunction example() {\n  return "Hello World";\n}`}
+            className="min-h-64 font-mono text-sm bg-zinc-950 text-zinc-100 border-0 resize-none"
+            required
+          />
+        </div>
+        {code && (
+          <div className="mt-2">
+            <p className="text-xs text-muted-foreground mb-2">Preview:</p>
+            <div className="rounded-md overflow-hidden">
+              <SyntaxHighlighter
+                language={language}
+                style={vscDarkPlus}
+                showLineNumbers
+                customStyle={{
+                  margin: 0,
+                  borderRadius: "0.375rem",
+                  fontSize: "0.875rem",
+                  maxHeight: "16rem",
+                }}
+              >
+                {code}
+              </SyntaxHighlighter>
+            </div>
+          </div>
+        )}
+      </div>
       <div className="flex justify-end">
         <Button type="submit">Save</Button>
         {/* Hidden close button to programmatically close the dialog */}

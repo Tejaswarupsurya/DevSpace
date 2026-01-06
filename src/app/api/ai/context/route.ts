@@ -3,6 +3,8 @@ import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import { startOfDay, endOfDay } from "date-fns";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   try {
     const session = await auth();
@@ -19,7 +21,7 @@ export async function GET() {
     }
 
     // Fetch user's workspace data for AI context
-    const [tasks, snippets, bookmarks, notes, todayJournal, recentPomodoros] =
+    const [tasks, snippets, bookmarks, note, todayJournal, recentPomodoros] =
       await Promise.all([
         // Active tasks only
         prisma.task.findMany({
@@ -69,17 +71,14 @@ export async function GET() {
           take: 15,
         }),
 
-        // Recent notes
-        prisma.note.findMany({
+        // User's scratchpad note
+        prisma.note.findUnique({
           where: { userId: user.id },
           select: {
             id: true,
-            title: true,
             content: true,
-            tags: true,
+            updatedAt: true,
           },
-          orderBy: { updatedAt: "desc" },
-          take: 5,
         }),
 
         // Today's journal
@@ -135,15 +134,13 @@ export async function GET() {
           count: bookmarks.length,
           items: bookmarks,
         },
-        notes: {
-          count: notes.length,
-          items: notes.map((n) => ({
-            id: n.id,
-            title: n.title,
-            preview: n.content.substring(0, 150),
-            tags: n.tags,
-          })),
-        },
+        note: note
+          ? {
+              id: note.id,
+              preview: note.content.substring(0, 150),
+              updatedAt: note.updatedAt,
+            }
+          : null,
         journal: todayJournal
           ? {
               mood: todayJournal.mood,

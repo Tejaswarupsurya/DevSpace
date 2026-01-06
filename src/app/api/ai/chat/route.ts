@@ -3,6 +3,8 @@ import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
+export const dynamic = "force-dynamic";
+
 // Gemini API rate limiter - FREE tier: 5 RPM, 25 RPD, 32K TPM
 const minuteRateLimitMap = new Map<
   string,
