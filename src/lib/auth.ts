@@ -9,24 +9,24 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     GitHub({
       clientId: process.env.GITHUB_CLIENT_ID!,
       clientSecret: process.env.GITHUB_CLIENT_SECRET!,
+      profile(profile) {
+        return {
+          id: profile.id.toString(),
+          name: profile.name || profile.login,
+          email: profile.email,
+          image: profile.avatar_url,
+          githubUsername: profile.login,
+        };
+      },
     }),
   ],
   callbacks: {
-    async signIn({ user, account, profile }) {
-      // Save GitHub username when user signs in
-      if (account?.provider === "github" && profile && user.email) {
-        // Only update the existing user (PrismaAdapter handles creation)
-        await prisma.user.update({
-          where: { email: user.email },
-          data: {
-            githubUsername: (profile as any).login,
-          },
-        });
-      }
+    async signIn() {
       return true;
     },
     session({ session, user }) {
       session.user.id = user.id;
+      session.user.githubUsername = (user as any).githubUsername;
       return session;
     },
     async jwt({ token, account }) {
