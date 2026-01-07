@@ -43,6 +43,8 @@
 - [Monitoring & Analytics](#-monitoring--analytics)
 - [Deployment](#-deployment)
 - [Screenshots](#-screenshots)
+- [Future Roadmap](#-future-roadmap)
+- [Contributing](#-contributing)
 - [License](#-license)
 
 ---
@@ -704,6 +706,81 @@ DevSpace is fully optimized for mobile devices:
 | 🔖 **Bookmarks**     | Adaptive grid with mobile-friendly dialogs  |
 | 🤖 **AI Chat**       | Full-screen chat with keyboard-aware input  |
 | 🔔 **Notifications** | Navigation buttons for time selection       |
+
+---
+
+## 🚧 Future Roadmap
+
+DevSpace is currently optimized for **solo developers**, providing a complete productivity suite for individual use. However, the vision extends to supporting **small team collaboration** while maintaining the simplicity and focus that makes DevSpace powerful.
+
+### 🔮 Planned Features (Community Contributions Welcome!)
+
+These features are **not yet in development** but represent the long-term vision for DevSpace. If you're interested in contributing to any of these areas, please reach out or open a discussion!
+
+#### 🌐 **Shared Workspaces**
+
+Transform DevSpace into a multi-workspace platform where developers can organize work by project:
+
+- **Workspace Switching** — Seamlessly toggle between personal and team workspaces
+- **Per-Workspace Isolation** — Each workspace maintains its own tasks, notes, snippets, and bookmarks
+- **Optional Team Journals** — Individual journal entries within shared project context
+- **Workspace Templates** — Quick-start configurations for common project types
+
+#### 👥 **Small Team Collaboration** (2-6 Members)
+
+Built for small dev teams and project partners, not enterprise-scale organizations:
+
+- **Simple Invitations** — Invite collaborators via email or username
+- **Real-Time Presence** — See who's online and actively working
+- **Live Updates** — Synchronized Kanban boards with instant task updates
+- **Shared Resources** — Team-accessible notes and reusable code snippets
+- **Activity Feed** — Track team progress and recent changes
+
+#### 🤝 **Project Buddy System**
+
+Help solo developers find project partners and collaborators:
+
+- **Project Listings** — Post project ideas with descriptions and required skills
+- **Collaboration Requests** — Browse projects and request to join
+- **Auto-Workspace Creation** — Shared workspace generated upon collaboration acceptance
+- **Role Clarity** — Clear distinction between project owners and contributors
+- **Skill Matching** — (Future) Intelligent matching based on tech stack and interests
+
+**Goal**: Connect developers for meaningful collaboration, not build a social network.
+
+#### 🔐 **Role-Based Access Control**
+
+Secure workspace management with clear permissions:
+
+| Role       | Permissions                                     |
+| ---------- | ----------------------------------------------- |
+| **Owner**  | Full control — manage members, delete workspace |
+| **Editor** | Create, edit, delete tasks, notes, and snippets |
+| **Viewer** | Read-only access to all workspace resources     |
+
+- **Granular Permissions** — Control who can edit, delete, and invite
+- **Workspace Isolation** — Complete data separation between workspaces
+- **Secure Invites** — Token-based invitation system with expiration
+
+---
+
+### 🎯 Why These Are Paused
+
+These features require:
+
+- **Real-time Infrastructure** — WebSocket or server-sent events for live collaboration
+- **Complex Database Modeling** — Multi-tenancy, workspace relationships, permissions
+- **Team & Testing** — Collaboration features need extensive testing with real teams
+- **Time Investment** — Significant development effort beyond solo capability
+
+### 💡 How You Can Help
+
+DevSpace is **open for contributions**! If you're excited about these features:
+
+- 🔧 **Contribute Code** — Pick a feature and start a discussion
+- 💬 **Share Ideas** — Open issues with suggestions or improvements
+- 📝 **Documentation** — Help plan architecture and implementation strategies
+- 🧪 **Testing** — Join beta testing when features are ready
 
 ---
 
