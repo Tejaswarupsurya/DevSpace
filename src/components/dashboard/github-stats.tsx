@@ -13,7 +13,13 @@ export async function GitHubStats() {
 
   const user = await prisma.user.findUnique({
     where: { id: session.user.id },
-    select: { githubUsername: true },
+    select: {
+      githubUsername: true,
+      accounts: {
+        where: { provider: "github" },
+        select: { access_token: true },
+      },
+    },
   });
 
   if (!user?.githubUsername) {
@@ -31,7 +37,9 @@ export async function GitHubStats() {
     );
   }
 
-  const githubData = await getGitHubStats(user.githubUsername);
+  const accessToken = user.accounts[0]?.access_token;
+
+  const githubData = await getGitHubStats(user.githubUsername, accessToken ?? undefined);
 
   if (!githubData) {
     return (
@@ -41,7 +49,7 @@ export async function GitHubStats() {
         </CardHeader>
         <CardContent>
           <p className="text-sm text-muted-foreground">
-            Failed to load GitHub stats
+            Failed to load GitHub stats. Try logging out and back in.
           </p>
         </CardContent>
       </Card>
