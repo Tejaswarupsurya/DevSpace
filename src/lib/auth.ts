@@ -14,17 +14,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   callbacks: {
     async signIn({ user, account, profile }) {
       // Save GitHub username when user signs in
-      if (account?.provider === "github" && profile) {
-        // Use upsert to handle both new and existing users
-        await prisma.user.upsert({
-          where: { email: user.email! },
-          update: {
-            githubUsername: (profile as any).login,
-          },
-          create: {
-            email: user.email!,
-            name: user.name,
-            image: user.image,
+      if (account?.provider === "github" && profile && user.email) {
+        // Only update the existing user (PrismaAdapter handles creation)
+        await prisma.user.update({
+          where: { email: user.email },
+          data: {
             githubUsername: (profile as any).login,
           },
         });
