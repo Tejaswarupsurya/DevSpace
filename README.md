@@ -23,7 +23,7 @@
 
 **An all-in-one developer workspace featuring Kanban tasks, code snippets, Pomodoro timer, daily journal, bookmarks manager, and an AI coding assistant — all in one beautiful, installable PWA interface.**
 
-[🚀 Live Demo](#) · [📝 Report Bug](https://github.com/yourusername/devspace/issues) · [💡 Request Feature](https://github.com/yourusername/devspace/issues)
+[🚀 Live Demo](https://dev-space-mu.vercel.app/) · [📝 Report Bug](https://github.com/Tejaswarupsurya/DevSpace/issues) · [💡 Request Feature](https://github.com/Tejaswarupsurya/DevSpace/issues)
 
 </div>
 
