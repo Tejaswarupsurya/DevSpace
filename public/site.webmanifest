@@ -10,13 +10,13 @@
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "/android-chrome-192x192.png",
+      "src": "/devspace-logo.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "maskable any"
     },
     {
-      "src": "/android-chrome-512x512.png",
+      "src": "/devspace-logo.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable any"
@@ -28,19 +28,19 @@
       "name": "Tasks",
       "short_name": "Tasks",
       "url": "/tasks",
-      "icons": [{ "src": "/android-chrome-192x192.png", "sizes": "192x192" }]
+      "icons": [{ "src": "/devspace-logo.png", "sizes": "192x192" }]
     },
     {
       "name": "Notes",
       "short_name": "Notes",
       "url": "/notes",
-      "icons": [{ "src": "/android-chrome-192x192.png", "sizes": "192x192" }]
+      "icons": [{ "src": "/devspace-logo.png", "sizes": "192x192" }]
     },
     {
       "name": "AI Chat",
       "short_name": "AI",
       "url": "/ai",
-      "icons": [{ "src": "/android-chrome-192x192.png", "sizes": "192x192" }]
+      "icons": [{ "src": "/devspace-logo.png", "sizes": "192x192" }]
     }
   ]
 }

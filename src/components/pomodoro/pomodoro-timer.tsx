@@ -32,6 +32,7 @@ export function PomodoroTimer() {
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const startTimeRef = useRef<number>(0);
   const statsRef = useRef<HTMLDivElement>(null);
+  const completingRef = useRef(false); // Prevent duplicate completion
 
   useEffect(() => {
     const saved = localStorage.getItem("pomodoro-state");
@@ -83,11 +84,16 @@ export function PomodoroTimer() {
   useEffect(() => {
     if (status === "running") {
       startTimeRef.current = Date.now() - (durations[mode] - timeLeft) * 1000;
+      completingRef.current = false; // Reset completion flag when starting
 
       intervalRef.current = setInterval(() => {
         setTimeLeft((prev) => {
           if (prev <= 1) {
-            handleTimerComplete();
+            // Use ref to prevent duplicate calls
+            if (!completingRef.current) {
+              completingRef.current = true;
+              handleTimerComplete();
+            }
             return 0;
           }
           return prev - 1;
@@ -107,26 +113,10 @@ export function PomodoroTimer() {
     };
   }, [status]);
 
-  const requestNotificationPermission = async () => {
-    if ("Notification" in window && Notification.permission === "default") {
-      await Notification.requestPermission();
-    }
-  };
-
-  const notify = (title: string, body: string) => {
-    if (Notification.permission === "granted") {
-      new Notification(title, {
-        body,
-        icon: "/icon.png",
-        tag: "pomodoro",
-      });
-    }
-  };
-
   const handleTimerComplete = async () => {
     setStatus("idle");
 
-    // Play sound (you can add audio here)
+    // Play sound
     const audio = new Audio("/notification.mp3");
     audio.play().catch(() => {
       /* Ignore if sound blocked */
@@ -143,21 +133,15 @@ export function PomodoroTimer() {
       if (newCount % 4 === 0) {
         setMode("longBreak");
         setTimeLeft(durations.longBreak);
-        notify(
-          "Time for a long break!",
-          "You've completed 4 sessions. Take 15 minutes."
-        );
         toast.success("🎉 Time for a long break! You've completed 4 sessions.");
       } else {
         setMode("break");
         setTimeLeft(durations.break);
-        notify("Time for a break!", "Take 5 minutes to refresh.");
         toast.success("✅ Work session complete! Time for a break.");
       }
     } else {
       setMode("work");
       setTimeLeft(durations.work);
-      notify("Break over!", "Ready to focus again?");
       toast.info("⏰ Break over! Ready to focus again?");
     }
   };
@@ -181,8 +165,7 @@ export function PomodoroTimer() {
     }
   };
 
-  const handleStart = async () => {
-    await requestNotificationPermission();
+  const handleStart = () => {
     setStatus("running");
   };
 
@@ -194,6 +177,7 @@ export function PomodoroTimer() {
   const handleReset = () => {
     setStatus("idle");
     setTimeLeft(durations[mode]);
+    completingRef.current = false; // Reset completion flag on manual reset
   };
 
   const handleModeChange = (newMode: TimerMode) => {

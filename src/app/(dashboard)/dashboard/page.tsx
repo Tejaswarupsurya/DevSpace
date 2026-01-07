@@ -1,6 +1,7 @@
 import { auth } from "@/lib/auth";
 import { GitHubStats } from "@/components/dashboard/github-stats";
 import { TodayOverview } from "@/components/dashboard/today-overview";
+import { NotificationSettings } from "@/components/dashboard/notification-settings";
 import { Suspense } from "react";
 
 function getGreeting() {
@@ -41,6 +42,9 @@ export default async function DashboardPage() {
         <Suspense fallback={<div>Loading GitHub stats...</div>}>
           <GitHubStats />
         </Suspense>
+
+        {/* Notification Settings */}
+        <NotificationSettings />
         {/* You can add more sections below as needed */}
       </div>
     </div>
