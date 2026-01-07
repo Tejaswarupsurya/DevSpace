@@ -67,7 +67,7 @@ export function Sidebar({ user }: SidebarProps) {
           <Image
             src="/devspace-logo.png"
             alt="DevSpace"
-            width={150}
+            width={300}
             height={38}
             priority
           />
