@@ -87,17 +87,20 @@ export function PomodoroTimer() {
       completingRef.current = false; // Reset completion flag when starting
 
       intervalRef.current = setInterval(() => {
-        setTimeLeft((prev) => {
-          if (prev <= 1) {
-            // Use ref to prevent duplicate calls
-            if (!completingRef.current) {
-              completingRef.current = true;
-              handleTimerComplete();
-            }
-            return 0;
+        // Calculate time based on actual elapsed time, not interval ticks
+        // This fixes the bug where the timer stops when the tab is inactive
+        const elapsed = Math.floor((Date.now() - startTimeRef.current) / 1000);
+        const remaining = Math.max(0, durations[mode] - elapsed);
+
+        setTimeLeft(remaining);
+
+        if (remaining <= 0) {
+          // Use ref to prevent duplicate calls
+          if (!completingRef.current) {
+            completingRef.current = true;
+            handleTimerComplete();
           }
-          return prev - 1;
-        });
+        }
       }, 1000);
     } else {
       if (intervalRef.current) {
@@ -111,7 +114,7 @@ export function PomodoroTimer() {
         clearInterval(intervalRef.current);
       }
     };
-  }, [status]);
+  }, [status, durations, mode]);
 
   const handleTimerComplete = async () => {
     setStatus("idle");
